@@ -11,6 +11,13 @@ import nl.saxion.act.i7.quitter.Models.TweetModel;
 public class TweetDataProvider {
     private static ArrayList<TweetModel> tweets = new ArrayList<>();
 
+    /***
+     * Remove the tweets and reload them.
+     *
+     * @param jsonObject The JSON file content.
+     *
+     * @throws JSONException JSON exception.
+     */
     public static void reload(JSONObject jsonObject) throws JSONException {
         tweets.clear();
 
@@ -21,6 +28,11 @@ public class TweetDataProvider {
         }
     }
 
+    /***
+     * Get all tweets.
+     *
+     * @return An array of tweets.
+     */
     public static ArrayList<TweetModel> getAll() {
         return tweets;
     }
