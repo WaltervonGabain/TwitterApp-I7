@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nl.saxion.act.i7.twitterapp">
+    package="nl.saxion.act.i7.quitter">
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".UserDetailedActivity"
+            android:label="@string/title_activity_user_detailed"></activity>
     </application>
 
 </manifest>

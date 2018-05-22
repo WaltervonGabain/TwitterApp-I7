@@ -1,4 +1,4 @@
-package nl.saxion.act.i7.twitterapp;
+package nl.saxion.act.i7.quitter;
 
 import org.junit.Test;
 

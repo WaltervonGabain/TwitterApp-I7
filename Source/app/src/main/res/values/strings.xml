@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">TwitterApp</string>
+    <string name="app_name">Quitter</string>
+    <string name="postedBy">Posted by:</string>
+    <string name="title_activity_user_detailed">UserDetailed</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="user_profile_title">%s\'s profile</string>
 </resources>
