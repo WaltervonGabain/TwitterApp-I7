@@ -16,8 +16,8 @@ public class UserDataProvider {
         return result;
     }
 
-    public static UserModel get(long id) {
-        return users.get(id);
+    public static UserModel getByIndex(int index) {
+        return users.valueAt(index);
     }
 
     public static UserModel get(JSONObject jsonObject) throws JSONException {

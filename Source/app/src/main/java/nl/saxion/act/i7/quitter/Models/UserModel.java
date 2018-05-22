@@ -8,9 +8,15 @@ public class UserModel {
 
     private String name;
 
+    private String username;
+
+    private String description;
+
     public UserModel(JSONObject jsonObject) throws JSONException {
         this.id = jsonObject.getLong("id");
         this.name = jsonObject.getString("name");
+        this.username = jsonObject.getString("screen_name");
+        this.description = jsonObject.getString("description");
     }
 
     public long getId() {
@@ -19,5 +25,13 @@ public class UserModel {
 
     public String getName() {
         return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

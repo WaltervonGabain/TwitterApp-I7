@@ -1,7 +1,10 @@
 package nl.saxion.act.i7.quitter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONObject;
@@ -34,5 +37,15 @@ public class MainActivity extends AppCompatActivity {
 
         ListView tweetList = this.findViewById(R.id.tweetList);
         tweetList.setAdapter(tweetDataAdapter);
+
+        tweetList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, UserDetailedActivity.class);
+                intent.putExtra("index", position);
+
+                startActivity(intent);
+            }
+        });
     }
 }
