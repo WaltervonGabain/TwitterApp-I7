@@ -1,4 +1,4 @@
-package nl.saxion.act.i7.twitterapp;
+package nl.saxion.act.i7.quitter;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("nl.saxion.act.i7.twitterapp", appContext.getPackageName());
+        assertEquals("nl.saxion.act.i7.quitter", appContext.getPackageName());
     }
 }
