@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Quitter</string>
+    <string name="postedBy">Posted by:</string>
 </resources>
