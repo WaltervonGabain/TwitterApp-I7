@@ -29,6 +29,17 @@ public class TweetDataProvider {
     }
 
     /***
+     * Get tweet at index.
+     *
+     * @param index Index of the tweet.
+     *
+     * @return Tweet at index or null if not exists.
+     */
+    public static TweetModel get(int index) {
+        return tweets.get(index);
+    }
+
+    /***
      * Get all tweets.
      *
      * @return An array of tweets.
