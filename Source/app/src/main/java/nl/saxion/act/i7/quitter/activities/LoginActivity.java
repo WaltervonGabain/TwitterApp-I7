@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import nl.saxion.act.i7.quitter.R;
+import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
 
 public class LoginActivity extends AppCompatActivity {
     public void onLoginClick(View view) {
 
+        AuthorizationManager.getInstance();
     }
 
     @Override

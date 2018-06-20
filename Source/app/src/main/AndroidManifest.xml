@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nl.saxion.act.i7.quitter">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -26,10 +23,18 @@
             android:label="@string/title_activity_user_detailed" />
         <activity
             android:name=".activities.LoginActivity"
+            android:excludeFromRecents="true"
             android:label="@string/title_activity_login"
             android:noHistory="true"
-            android:excludeFromRecents="true"/>
-        <activity android:name=".activities.HomeActivity"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.HomeActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.AuthorizationActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
