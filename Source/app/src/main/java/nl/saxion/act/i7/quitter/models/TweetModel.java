@@ -1,4 +1,4 @@
-package nl.saxion.act.i7.quitter.model;
+package nl.saxion.act.i7.quitter.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;

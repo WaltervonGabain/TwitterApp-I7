@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.data_providers.TweetDataProvider;
-import nl.saxion.act.i7.quitter.model.UserModel;
+import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class UserDetailedActivity extends AppCompatActivity {
     @Override

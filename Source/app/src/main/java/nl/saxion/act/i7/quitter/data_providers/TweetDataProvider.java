@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import nl.saxion.act.i7.quitter.model.TweetModel;
+import nl.saxion.act.i7.quitter.models.TweetModel;
 
 public class TweetDataProvider {
     private static ArrayList<TweetModel> tweets = new ArrayList<>();

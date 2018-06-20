@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import nl.saxion.act.i7.quitter.model.TweetModel;
+import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.R;
 
 public class TweetDataAdapter extends ArrayAdapter<TweetModel> {

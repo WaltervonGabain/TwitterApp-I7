@@ -5,7 +5,7 @@ import android.util.LongSparseArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import nl.saxion.act.i7.quitter.model.UserModel;
+import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class UserDataProvider {
     private static LongSparseArray<UserModel> users = new LongSparseArray<>();
