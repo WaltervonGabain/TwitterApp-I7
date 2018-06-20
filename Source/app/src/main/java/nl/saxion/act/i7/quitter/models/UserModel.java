@@ -1,6 +1,7 @@
 package nl.saxion.act.i7.quitter.models;
 
-import org.json.JSONException;
+import android.util.Log;
+
 import org.json.JSONObject;
 
 public class UserModel {
@@ -24,18 +25,25 @@ public class UserModel {
      */
     private String description;
 
+    private String profileImageUrl;
+
     /***
      * Constructor.
      *
      * @param jsonObject The JSON object for the user.
-     *
-     * @throws JSONException JSON exception.
      */
-    public UserModel(JSONObject jsonObject) throws JSONException {
-        this.id = jsonObject.getLong("id");
-        this.name = jsonObject.getString("name");
-        this.username = jsonObject.getString("screen_name");
-        this.description = jsonObject.getString("description");
+    public UserModel(JSONObject jsonObject) {
+        try {
+            this.id = jsonObject.getLong("id");
+            this.name = jsonObject.getString("name");
+            this.username = String.format("@%s", jsonObject.getString("screen_name"));
+            this.description = jsonObject.getString("description");
+
+            this.profileImageUrl = jsonObject.getString("profile_image_url_https");
+
+        } catch (Exception ex) {
+            Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
+        }
     }
 
     /***
@@ -72,5 +80,9 @@ public class UserModel {
      */
     public String getDescription() {
         return description;
+    }
+
+    public String getProfileImageUrl() {
+        return this.profileImageUrl;
     }
 }
