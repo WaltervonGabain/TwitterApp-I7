@@ -11,8 +11,9 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 
-import nl.saxion.act.i7.quitter.DataAdapter.TweetDataAdapter;
-import nl.saxion.act.i7.quitter.DataProvider.TweetDataProvider;
+import nl.saxion.act.i7.quitter.activities.UserDetailedActivity;
+import nl.saxion.act.i7.quitter.data_adapters.TweetDataAdapter;
+import nl.saxion.act.i7.quitter.data_providers.TweetDataProvider;
 
 public class MainActivity extends AppCompatActivity {
 

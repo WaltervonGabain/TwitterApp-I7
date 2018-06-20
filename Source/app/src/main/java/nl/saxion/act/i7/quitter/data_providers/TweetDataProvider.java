@@ -1,4 +1,4 @@
-package nl.saxion.act.i7.quitter.DataProvider;
+package nl.saxion.act.i7.quitter.data_providers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import nl.saxion.act.i7.quitter.Models.TweetModel;
+import nl.saxion.act.i7.quitter.model.TweetModel;
 
 public class TweetDataProvider {
     private static ArrayList<TweetModel> tweets = new ArrayList<>();
