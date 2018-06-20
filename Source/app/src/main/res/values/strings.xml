@@ -6,4 +6,13 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="user_profile_title">%s\'s profile</string>
+
+    <string name="title_activity_login">Sign in</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <!-- Strings related to login -->
+    <string name="action_sign_in">Sign in</string>
+    <string name="please_wait">Please wait...</string>
 </resources>

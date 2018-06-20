@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nl.saxion.act.i7.quitter">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,8 +19,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserDetailedActivity"
-            android:label="@string/title_activity_user_detailed"></activity>
+            android:name=".activities.UserDetailedActivity"
+            android:label="@string/title_activity_user_detailed" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_login"
+            android:noHistory="true"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.HomeActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.AuthorizationActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

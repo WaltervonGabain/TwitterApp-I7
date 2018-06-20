@@ -1,11 +1,11 @@
-package nl.saxion.act.i7.quitter.DataProvider;
+package nl.saxion.act.i7.quitter.data_providers;
 
 import android.util.LongSparseArray;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import nl.saxion.act.i7.quitter.Models.UserModel;
+import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class UserDataProvider {
     private static LongSparseArray<UserModel> users = new LongSparseArray<>();

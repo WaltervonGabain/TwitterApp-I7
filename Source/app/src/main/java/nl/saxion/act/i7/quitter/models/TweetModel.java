@@ -1,9 +1,9 @@
-package nl.saxion.act.i7.quitter.Models;
+package nl.saxion.act.i7.quitter.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import nl.saxion.act.i7.quitter.DataProvider.UserDataProvider;
+import nl.saxion.act.i7.quitter.data_providers.UserDataProvider;
 
 public class TweetModel {
     /***

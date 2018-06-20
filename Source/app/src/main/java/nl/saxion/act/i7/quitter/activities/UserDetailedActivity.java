@@ -1,16 +1,12 @@
-package nl.saxion.act.i7.quitter;
+package nl.saxion.act.i7.quitter.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-import nl.saxion.act.i7.quitter.DataProvider.TweetDataProvider;
-import nl.saxion.act.i7.quitter.DataProvider.UserDataProvider;
-import nl.saxion.act.i7.quitter.Models.TweetModel;
-import nl.saxion.act.i7.quitter.Models.UserModel;
+import nl.saxion.act.i7.quitter.R;
+import nl.saxion.act.i7.quitter.data_providers.TweetDataProvider;
+import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class UserDetailedActivity extends AppCompatActivity {
     @Override
