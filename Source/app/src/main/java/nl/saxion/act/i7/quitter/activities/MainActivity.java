@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,16 +20,17 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import nl.saxion.act.i7.quitter.R;
+import nl.saxion.act.i7.quitter.fragments.HomeFragment;
 import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
 import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
 import nl.saxion.act.i7.quitter.models.UserModel;
 import nl.saxion.act.i7.quitter.utilities.CircleTransform;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = this.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,6 +44,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         this.bindUserDetails();
+
+        if (savedInstanceState == null) {
+            this.loadFragment(HomeFragment.class);
+        }
     }
 
     @Override
@@ -60,10 +68,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             AuthorizationManager.getInstance().logout();
             SharedPreferencesManager.getInstance().clear();
 
-            Intent intent = new Intent(HomeActivity.this, AuthorizationActivity.class);
+            Intent intent = new Intent(MainActivity.this, AuthorizationActivity.class);
             this.startActivity(intent);
             this.finish();
         }
+
+        item.setChecked(true);
 
         DrawerLayout drawer = this.findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -84,5 +94,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         textView = headerView.findViewById(R.id.tvUsername);
         textView.setText(userModel.getUsername());
+    }
+
+    private void loadFragment(Class fragmentClass) {
+        Fragment fragment = null;
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception ex) {
+            Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
+        }
+
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_content, fragment).commit();
     }
 }

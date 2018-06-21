@@ -24,7 +24,7 @@
         <activity
             android:name=".activities.UserDetailedActivity"
             android:label="@string/title_activity_user_detailed" />
-        <activity android:name=".activities.HomeActivity"
+        <activity android:name=".activities.MainActivity"
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:theme="@style/AppTheme" />

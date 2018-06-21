@@ -100,7 +100,7 @@ public class AuthorizationActivity extends AppCompatActivity {
 
                     sharedPreferences.apply();
 
-                    Intent activityIntent = new Intent(AuthorizationActivity.this, HomeActivity.class);
+                    Intent activityIntent = new Intent(AuthorizationActivity.this, MainActivity.class);
                     startActivity(activityIntent);
                     finish();
                 } else {
