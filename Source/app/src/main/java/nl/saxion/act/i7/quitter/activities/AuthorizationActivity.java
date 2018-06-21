@@ -1,7 +1,6 @@
 package nl.saxion.act.i7.quitter.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,9 +13,10 @@ import com.github.scribejava.core.model.OAuth1AccessToken;
 
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
+import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
+import nl.saxion.act.i7.quitter.tasks.TaskResponse;
 import nl.saxion.act.i7.quitter.tasks.auth.AccessTokenExchangeTask;
 import nl.saxion.act.i7.quitter.tasks.auth.AuthorizationUrlTask;
-import nl.saxion.act.i7.quitter.tasks.TaskResponse;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterVerifyCredentialsTask;
 
 public class AuthorizationActivity extends AppCompatActivity {
@@ -25,8 +25,10 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("Quitter", MODE_PRIVATE);
-        AuthorizationManager.getInstance().setAccessToken(sharedPreferences.getString("token", ""), sharedPreferences.getString("tokenSecret", ""), sharedPreferences.getString("rawResponse", ""));
+
+        SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance(this);
+        AuthorizationManager.getInstance().setAccessToken(sharedPreferences.getString("token", ""),
+                sharedPreferences.getString("tokenSecret", ""), sharedPreferences.getString("rawResponse", ""));
 
         if(AuthorizationManager.getInstance().getAccessToken() == null) {
             AuthorizationUrlTask authorizationUrlTask = new AuthorizationUrlTask(new TaskResponse<String>() {
@@ -86,19 +88,20 @@ public class AuthorizationActivity extends AppCompatActivity {
     }
 
     private void verifyCredentials() {
-        final SharedPreferences.Editor shEditor = this.getSharedPreferences("Quitter", MODE_PRIVATE).edit();
-
         TwitterVerifyCredentialsTask verifyCredentialsTask = new TwitterVerifyCredentialsTask(new TaskResponse<Boolean>() {
             @Override
             public void onResponse(Boolean success) {
                 if(success) {
                     OAuth1AccessToken accessToken = AuthorizationManager.getInstance().getAccessToken();
 
-                    shEditor.putString("token", accessToken.getToken());
-                    shEditor.putString("tokenSecret", accessToken.getTokenSecret());
-                    shEditor.putString("rawResponse", accessToken.getRawResponse());
+                    SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance();
+                    sharedPreferences.edit();
 
-                    shEditor.apply();
+                    sharedPreferences.putString("token", accessToken.getToken());
+                    sharedPreferences.putString("tokenSecret", accessToken.getTokenSecret());
+                    sharedPreferences.putString("rawResponse", accessToken.getRawResponse());
+
+                    sharedPreferences.apply();
 
                     Intent activityIntent = new Intent(AuthorizationActivity.this, HomeActivity.class);
                     startActivity(activityIntent);
