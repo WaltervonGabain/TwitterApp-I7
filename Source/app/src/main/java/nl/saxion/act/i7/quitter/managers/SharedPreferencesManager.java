@@ -26,10 +26,6 @@ public class SharedPreferencesManager {
         return instance;
     }
 
-
-    private SharedPreferencesManager() {
-    }
-
     private SharedPreferencesManager(Context context) {
         this.preferences = context.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE);
     }
