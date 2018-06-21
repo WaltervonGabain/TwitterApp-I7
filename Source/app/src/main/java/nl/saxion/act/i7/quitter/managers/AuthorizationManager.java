@@ -10,6 +10,10 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
+import org.json.JSONObject;
+
+import nl.saxion.act.i7.quitter.models.UserModel;
+
 public class AuthorizationManager {
     public static String CALLBACK_URL = "https://www.quitter.com";
 
@@ -22,6 +26,8 @@ public class AuthorizationManager {
     private String verifier;
 
     private OAuth1RequestToken requestToken;
+
+    private UserModel userModel;
 
     private AuthorizationManager() {
         this.authService = new ServiceBuilder("iYaFaQKtk7MDtIg9oBTgq1vfn")
@@ -56,6 +62,10 @@ public class AuthorizationManager {
         return this.authService.getAuthorizationUrl(this.getRequestToken());
     }
 
+    public UserModel getUserModel() {
+        return userModel;
+    }
+
     public OAuth1RequestToken getRequestToken() {
         if (requestToken == null) {
             try {
@@ -66,6 +76,10 @@ public class AuthorizationManager {
         }
 
         return this.requestToken;
+    }
+
+    public void handleUserJson(JSONObject jsonObject) {
+        this.userModel = new UserModel(jsonObject);
     }
 
     public void setAccessToken() {

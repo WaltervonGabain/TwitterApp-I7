@@ -1,51 +1,75 @@
 package nl.saxion.act.i7.quitter.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import org.json.JSONObject;
-
-import java.io.InputStream;
+import com.squareup.picasso.Picasso;
 
 import nl.saxion.act.i7.quitter.R;
-import nl.saxion.act.i7.quitter.data_adapters.TweetDataAdapter;
-import nl.saxion.act.i7.quitter.data_providers.TweetDataProvider;
+import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
+import nl.saxion.act.i7.quitter.models.UserModel;
+import nl.saxion.act.i7.quitter.utilities.CircleTransform;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        InputStream stream = this.getBaseContext().getResources().openRawResource(R.raw.tweets);
+        Toolbar toolbar = this.findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        try {
-            byte[] bytes = new byte[stream.available()];
-            stream.read(bytes);
+        DrawerLayout drawer = this.findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_open, R.string.navigation_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-            String fileContent = new String(bytes);
-            TweetDataProvider.reload(new JSONObject(fileContent));
-        } catch (Exception e) {
-            e.printStackTrace();
+        NavigationView navigationView = this.findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        this.bindUserDetails();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = this.findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
+    }
 
-        TweetDataAdapter tweetDataAdapter = new TweetDataAdapter(this, TweetDataProvider.getAll());
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        DrawerLayout drawer = this.findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
-        ListView tweetList = this.findViewById(R.id.tweetList);
-        tweetList.setAdapter(tweetDataAdapter);
+    private void bindUserDetails() {
+        UserModel userModel = AuthorizationManager.getInstance().getUserModel();
 
-        tweetList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(HomeActivity.this, UserDetailedActivity.class);
-                intent.putExtra("index", position);
+        NavigationView navigationView = this.findViewById(R.id.nav_view);
+        final View headerView = navigationView.getHeaderView(0);
 
-                startActivity(intent);
-            }
-        });
+        ImageView imageView = headerView.findViewById(R.id.ivProfileImage);
+        Picasso.get().load(userModel.getProfileImageUrl()).resize(72, 72).transform(new CircleTransform()).into(imageView);
+
+        TextView textView = headerView.findViewById(R.id.tvName);
+        textView.setText(userModel.getName());
+
+        textView = headerView.findViewById(R.id.tvUsername);
+        textView.setText(userModel.getUsername());
     }
 }

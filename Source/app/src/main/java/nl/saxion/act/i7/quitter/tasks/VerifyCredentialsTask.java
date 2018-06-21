@@ -6,6 +6,8 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 
+import org.json.JSONObject;
+
 import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
 
 public class VerifyCredentialsTask extends AsyncTask<Void, Void, Boolean> {
@@ -21,7 +23,7 @@ public class VerifyCredentialsTask extends AsyncTask<Void, Void, Boolean> {
         Response response = AuthorizationManager.getInstance().execute(oAuthRequest);
         if (response.isSuccessful()) {
             try {
-                // TODO: Create user from JSON.
+                AuthorizationManager.getInstance().handleUserJson(new JSONObject(response.getBody()));
                 return true;
             } catch (Exception ex) {
                 Log.e(this.getClass().getSimpleName(), ex.getLocalizedMessage(), ex);
