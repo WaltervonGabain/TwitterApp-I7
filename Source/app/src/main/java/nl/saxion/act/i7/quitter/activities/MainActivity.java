@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -74,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.startActivity(intent);
             this.finish();
         }
+
+        item.setChecked(true);
 
         DrawerLayout drawer = this.findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
