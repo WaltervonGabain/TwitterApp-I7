@@ -7,6 +7,6 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
 
-        SharedPreferencesManager.getInstance(this);
+        SharedPreferencesManager.construct(this);
     }
 }

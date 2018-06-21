@@ -12,21 +12,20 @@ public class SharedPreferencesManager {
 
     private SharedPreferences.Editor shEditor;
 
-    public static SharedPreferencesManager getInstance() {
-        if(instance == null) {
-            throw new RuntimeException("Use getInstance(Context) at least once before using this method");
-        }
-
-        return instance;
-    }
-
-    public static SharedPreferencesManager getInstance(Context context) {
+    public static void construct(Context context) {
         if (instance == null) {
             instance = new SharedPreferencesManager(context.getApplicationContext());
         }
+    }
+
+    public static SharedPreferencesManager getInstance() {
+        if(instance == null) {
+            throw new RuntimeException("Use construct(Context) at least once before using this method");
+        }
 
         return instance;
     }
+
 
     private SharedPreferencesManager() {
     }
