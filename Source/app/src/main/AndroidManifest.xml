@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.AuthorizationActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,17 +23,7 @@
         <activity
             android:name=".activities.UserDetailedActivity"
             android:label="@string/title_activity_user_detailed" />
-        <activity
-            android:name=".activities.LoginActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_login"
-            android:noHistory="true"
-            android:theme="@style/AppTheme" />
         <activity android:name=".activities.HomeActivity"
-            android:excludeFromRecents="true"
-            android:noHistory="true"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".activities.AuthorizationActivity"
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:theme="@style/AppTheme" />
