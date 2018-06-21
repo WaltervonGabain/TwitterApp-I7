@@ -1,6 +1,8 @@
-package nl.saxion.act.i7.quitter.tasks;
+package nl.saxion.act.i7.quitter.tasks.auth;
 
 import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
+import nl.saxion.act.i7.quitter.tasks.AsyncTask;
+import nl.saxion.act.i7.quitter.tasks.TaskResponse;
 
 public class AccessTokenExchangeTask extends AsyncTask<Void, Void, Void> {
     public AccessTokenExchangeTask(TaskResponse<Void> delegate) {

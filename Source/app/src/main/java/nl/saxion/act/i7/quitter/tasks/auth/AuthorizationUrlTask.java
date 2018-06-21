@@ -1,10 +1,10 @@
-package nl.saxion.act.i7.quitter.tasks;
+package nl.saxion.act.i7.quitter.tasks.auth;
 
 import android.util.Log;
 
-import com.github.scribejava.core.model.OAuth1RequestToken;
-
 import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
+import nl.saxion.act.i7.quitter.tasks.AsyncTask;
+import nl.saxion.act.i7.quitter.tasks.TaskResponse;
 
 public class AuthorizationUrlTask extends AsyncTask<Void, Void, String> {
     public AuthorizationUrlTask(TaskResponse<String> delegate) {
