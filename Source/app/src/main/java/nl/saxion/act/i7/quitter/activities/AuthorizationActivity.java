@@ -14,10 +14,10 @@ import com.github.scribejava.core.model.OAuth1AccessToken;
 
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
-import nl.saxion.act.i7.quitter.tasks.AccessTokenExchangeTask;
-import nl.saxion.act.i7.quitter.tasks.AuthorizationUrlTask;
+import nl.saxion.act.i7.quitter.tasks.auth.AccessTokenExchangeTask;
+import nl.saxion.act.i7.quitter.tasks.auth.AuthorizationUrlTask;
 import nl.saxion.act.i7.quitter.tasks.TaskResponse;
-import nl.saxion.act.i7.quitter.tasks.VerifyCredentialsTask;
+import nl.saxion.act.i7.quitter.tasks.twitter.TwitterVerifyCredentialsTask;
 
 public class AuthorizationActivity extends AppCompatActivity {
     @Override
@@ -88,7 +88,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     private void verifyCredentials() {
         final SharedPreferences.Editor shEditor = this.getSharedPreferences("Quitter", MODE_PRIVATE).edit();
 
-        VerifyCredentialsTask verifyCredentialsTask = new VerifyCredentialsTask(new TaskResponse<Boolean>() {
+        TwitterVerifyCredentialsTask verifyCredentialsTask = new TwitterVerifyCredentialsTask(new TaskResponse<Boolean>() {
             @Override
             public void onResponse(Boolean success) {
                 if(success) {

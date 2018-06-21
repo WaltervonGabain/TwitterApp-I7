@@ -1,4 +1,4 @@
-package nl.saxion.act.i7.quitter.tasks;
+package nl.saxion.act.i7.quitter.tasks.twitter;
 
 import android.util.Log;
 
@@ -9,9 +9,11 @@ import com.github.scribejava.core.model.Verb;
 import org.json.JSONObject;
 
 import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
+import nl.saxion.act.i7.quitter.tasks.AsyncTask;
+import nl.saxion.act.i7.quitter.tasks.TaskResponse;
 
-public class VerifyCredentialsTask extends AsyncTask<Void, Void, Boolean> {
-    public VerifyCredentialsTask(TaskResponse<Boolean> delegate) {
+public class TwitterVerifyCredentialsTask extends AsyncTask<Void, Void, Boolean> {
+    public TwitterVerifyCredentialsTask(TaskResponse<Boolean> delegate) {
         super(delegate);
     }
 
