@@ -82,6 +82,10 @@ public class AuthorizationManager {
         this.userModel = new UserModel(jsonObject);
     }
 
+    public void logout() {
+        this.accessToken = null;
+    }
+
     public void setAccessToken() {
         try {
             this.accessToken = this.authService.getAccessToken(this.requestToken, this.verifier);

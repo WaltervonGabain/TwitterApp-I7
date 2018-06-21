@@ -21,4 +21,5 @@
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in</string>
     <string name="please_wait">Please wait...</string>
+    <string name="logout">Log Out</string>
 </resources>

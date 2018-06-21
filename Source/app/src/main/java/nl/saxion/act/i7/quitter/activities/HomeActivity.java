@@ -1,5 +1,6 @@
 package nl.saxion.act.i7.quitter.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,6 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
+import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
 import nl.saxion.act.i7.quitter.models.UserModel;
 import nl.saxion.act.i7.quitter.utilities.CircleTransform;
 
@@ -52,6 +54,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_logout) {
+            AuthorizationManager.getInstance().logout();
+            SharedPreferencesManager.getInstance().clear();
+
+            Intent intent = new Intent(HomeActivity.this, AuthorizationActivity.class);
+            this.startActivity(intent);
+            this.finish();
+        }
+
         DrawerLayout drawer = this.findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
