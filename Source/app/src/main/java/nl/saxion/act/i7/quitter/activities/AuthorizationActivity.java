@@ -26,7 +26,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authorization);
 
 
-        SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance(this);
+        SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance();
         AuthorizationManager.getInstance().setAccessToken(sharedPreferences.getString("token", ""),
                 sharedPreferences.getString("tokenSecret", ""), sharedPreferences.getString("rawResponse", ""));
 
