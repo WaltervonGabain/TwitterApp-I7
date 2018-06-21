@@ -25,19 +25,17 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-
         SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance();
         AuthorizationManager.getInstance().setAccessToken(sharedPreferences.getString("token", ""),
                 sharedPreferences.getString("tokenSecret", ""), sharedPreferences.getString("rawResponse", ""));
 
         if(AuthorizationManager.getInstance().getAccessToken() == null) {
-            AuthorizationUrlTask authorizationUrlTask = new AuthorizationUrlTask(new TaskResponse<String>() {
+            new AuthorizationUrlTask(new TaskResponse<String>() {
                 @Override
                 public void onResponse(String output) {
                     onAuthorizationUrlTaskFinish(output);
                 }
-            });
-            authorizationUrlTask.execute();
+            }).execute();
         } else {
             this.verifyCredentials();
         }
@@ -71,13 +69,12 @@ public class AuthorizationActivity extends AppCompatActivity {
 
                     AuthorizationManager.getInstance().setVerifier(request.getUrl().getQueryParameter("oauth_verifier"));
 
-                    AccessTokenExchangeTask accessTokenExchangeTask = new AccessTokenExchangeTask(new TaskResponse<Void>() {
+                    new AccessTokenExchangeTask(new TaskResponse<Void>() {
                         @Override
                         public void onResponse(Void output) {
                             onAccessTokenExchangeTaskFinish();
                         }
-                    });
-                    accessTokenExchangeTask.execute();
+                    }).execute();
                 }
 
                 return false;
@@ -88,7 +85,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     }
 
     private void verifyCredentials() {
-        TwitterVerifyCredentialsTask verifyCredentialsTask = new TwitterVerifyCredentialsTask(new TaskResponse<Boolean>() {
+        new TwitterVerifyCredentialsTask(new TaskResponse<Boolean>() {
             @Override
             public void onResponse(Boolean success) {
                 if(success) {
@@ -110,7 +107,6 @@ public class AuthorizationActivity extends AppCompatActivity {
                     // TODO: Handle the error.
                 }
             }
-        });
-        verifyCredentialsTask.execute();
+        }).execute();
     }
 }
