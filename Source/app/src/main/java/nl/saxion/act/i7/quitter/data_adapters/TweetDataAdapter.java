@@ -3,14 +3,13 @@ package nl.saxion.act.i7.quitter.data_adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.ArrayList;
 
@@ -56,10 +55,11 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
         textView = convertView.findViewById(R.id.tvScreenName);
         textView.setText(user.getScreenName());
 
-        PrettyTime prettyTime = new PrettyTime();
+        long dateMillis = tweet.getCreatedAt().getTime();
+        String relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
 
         textView = convertView.findViewById(R.id.tvTime);
-        textView.setText(prettyTime.format(tweet.getCreatedAt()));
+        textView.setText(relativeDate);
 
         textView = convertView.findViewById(R.id.tvText);
         textView.setText(tweet.getText());
