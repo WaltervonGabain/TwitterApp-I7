@@ -2,36 +2,31 @@ package nl.saxion.act.i7.quitter.tasks.twitter;
 
 import android.util.Log;
 
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 
 import org.json.JSONObject;
 
-import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
-import nl.saxion.act.i7.quitter.tasks.AsyncTask;
-import nl.saxion.act.i7.quitter.tasks.TaskResponse;
+import nl.saxion.act.i7.quitter.models.UserModel;
 
-public class TwitterVerifyCredentialsTask extends AsyncTask<Void, Void, Boolean> {
-    public TwitterVerifyCredentialsTask(TaskResponse<Boolean> delegate) {
-        super(delegate);
+public class TwitterVerifyCredentialsTask extends TwitterApiTask<JSONObject> {
+    @Override
+    protected String getEndpoint() {
+        return "account/verify_credentials.json";
     }
 
     @Override
-    protected Boolean doInBackground(Void... voids) {
-        OAuthRequest oAuthRequest = new OAuthRequest(Verb.GET, "https://api.twitter.com/1.1/account/verify_credentials.json");
-        AuthorizationManager.getInstance().signRequest(oAuthRequest);
+    protected Verb getMethod() {
+        return Verb.GET;
+    }
 
-        Response response = AuthorizationManager.getInstance().execute(oAuthRequest);
-        if (response.isSuccessful()) {
-            try {
-                AuthorizationManager.getInstance().handleUserJson(new JSONObject(response.getBody()));
-                return true;
-            } catch (Exception ex) {
-                Log.e(this.getClass().getSimpleName(), ex.getLocalizedMessage(), ex);
-            }
+    @Override
+    protected JSONObject onSuccess(String response) {
+        try {
+            return new JSONObject(response);
+        } catch (Exception ex) {
+            Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
         }
 
-        return false;
+        return null;
     }
 }

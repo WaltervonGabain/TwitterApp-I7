@@ -9,50 +9,44 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
-import com.github.scribejava.core.model.OAuth1AccessToken;
-
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import nl.saxion.act.i7.quitter.R;
-import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
-import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
-import nl.saxion.act.i7.quitter.tasks.TaskResponse;
-import nl.saxion.act.i7.quitter.tasks.auth.AccessTokenExchangeTask;
-import nl.saxion.act.i7.quitter.tasks.auth.AuthorizationUrlTask;
-import nl.saxion.act.i7.quitter.tasks.twitter.TwitterVerifyCredentialsTask;
+import nl.saxion.act.i7.quitter.managers.AuthManager;
 
 public class AuthorizationActivity extends AppCompatActivity {
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance();
-        AuthorizationManager.getInstance().setAccessToken(sharedPreferences.getString("token", ""),
-                sharedPreferences.getString("tokenSecret", ""), sharedPreferences.getString("rawResponse", ""));
+        Disposable disposable;
 
-        if(AuthorizationManager.getInstance().getAccessToken() == null) {
-            new AuthorizationUrlTask(new TaskResponse<String>() {
-                @Override
-                public void onResponse(String output) {
-                    onAuthorizationUrlTaskFinish(output);
-                }
-            }).execute();
+        if (AuthManager.getInstance().hasAccessToken()) {
+            disposable = AuthManager.getInstance().login(null).subscribe(this::onCredentialsVerified);
         } else {
-            this.verifyCredentials();
+            disposable = AuthManager.getInstance().getAuthorizationUrl().subscribe(this::onAuthorizationUrl);
         }
+
+        this.compositeDisposable.add(disposable);
     }
 
-    private void onAccessTokenExchangeTaskFinish() {
-        this.verifyCredentials();
+    @Override
+    protected void onDestroy() {
+        this.compositeDisposable.dispose();
+        super.onDestroy();
     }
 
-    private void onAuthorizationUrlTaskFinish(final String authorizationUrl) {
-        final WebView webView = this.findViewById(R.id.webView);
-        final RelativeLayout relativeLayout = this.findViewById(R.id.pleaseWaitLayout);
+    private void onAuthorizationUrl(String authorizationUrl) {
+        WebView webView = this.findViewById(R.id.webView);
+        RelativeLayout relativeLayout = this.findViewById(R.id.pleaseWaitLayout);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                if (url.equals(authorizationUrl)) {
+                if (authorizationUrl.equals(url)) {
                     webView.setVisibility(View.VISIBLE);
                     relativeLayout.setVisibility(View.GONE);
                 }
@@ -60,21 +54,17 @@ public class AuthorizationActivity extends AppCompatActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if (request.getUrl().toString().startsWith(AuthorizationManager.CALLBACK_URL)) {
+                if (request.getUrl().toString().startsWith(AuthManager.CALLBACK_URL)) {
                     webView.setVisibility(View.GONE);
                     webView.stopLoading();
                     webView.loadUrl("about:blank");
 
                     relativeLayout.setVisibility(View.VISIBLE);
 
-                    AuthorizationManager.getInstance().setVerifier(request.getUrl().getQueryParameter("oauth_verifier"));
+                    String oAuthVerifier = request.getUrl().getQueryParameter("oauth_verifier");
+                    Disposable disposable = AuthManager.getInstance().login(oAuthVerifier).subscribe((success) -> onCredentialsVerified(success));
 
-                    new AccessTokenExchangeTask(new TaskResponse<Void>() {
-                        @Override
-                        public void onResponse(Void output) {
-                            onAccessTokenExchangeTaskFinish();
-                        }
-                    }).execute();
+                    compositeDisposable.add(disposable);
                 }
 
                 return false;
@@ -84,29 +74,14 @@ public class AuthorizationActivity extends AppCompatActivity {
         webView.loadUrl(authorizationUrl);
     }
 
-    private void verifyCredentials() {
-        new TwitterVerifyCredentialsTask(new TaskResponse<Boolean>() {
-            @Override
-            public void onResponse(Boolean success) {
-                if(success) {
-                    OAuth1AccessToken accessToken = AuthorizationManager.getInstance().getAccessToken();
-
-                    SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance();
-                    sharedPreferences.edit();
-
-                    sharedPreferences.putString("token", accessToken.getToken());
-                    sharedPreferences.putString("tokenSecret", accessToken.getTokenSecret());
-                    sharedPreferences.putString("rawResponse", accessToken.getRawResponse());
-
-                    sharedPreferences.apply();
-
-                    Intent activityIntent = new Intent(AuthorizationActivity.this, MainActivity.class);
-                    startActivity(activityIntent);
-                    finish();
-                } else {
-                    // TODO: Handle the error.
-                }
-            }
-        }).execute();
+    private void onCredentialsVerified(boolean success) {
+        if (success) {
+            Intent activityIntent = new Intent(AuthorizationActivity.this, MainActivity.class);
+            startActivity(activityIntent);
+            finish();
+        } else {
+            Disposable disposable = AuthManager.getInstance().getAuthorizationUrl().subscribe(this::onAuthorizationUrl);
+            this.compositeDisposable.add(disposable);
+        }
     }
 }

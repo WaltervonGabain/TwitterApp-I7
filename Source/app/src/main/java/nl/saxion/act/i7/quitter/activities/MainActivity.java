@@ -1,6 +1,8 @@
 package nl.saxion.act.i7.quitter.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,16 +19,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.fragments.HomeFragment;
-import nl.saxion.act.i7.quitter.managers.AuthorizationManager;
+import nl.saxion.act.i7.quitter.managers.AuthManager;
 import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
 import nl.saxion.act.i7.quitter.models.UserModel;
-import nl.saxion.act.i7.quitter.utilities.CircleTransform;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            AuthorizationManager.getInstance().logout();
+            AuthManager.getInstance().logout();
             SharedPreferencesManager.getInstance().clear();
 
             Intent intent = new Intent(MainActivity.this, AuthorizationActivity.class);
@@ -81,19 +85,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void bindUserDetails() {
-        UserModel userModel = AuthorizationManager.getInstance().getUserModel();
+        UserModel currentUser = Application.getInstance().getCurrentUser();
+
+        Disposable disposable;
+
+        NavigationView navigationView = this.findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        TextView tvName = headerView.findViewById(R.id.tvName);
+        tvName.setText(currentUser.getName());
+
+        TextView tvUsername = headerView.findViewById(R.id.tvUsername);
+        tvUsername.setText(currentUser.getUsername());
+
+        disposable = currentUser.getProfileTextColorObservable().subscribe((color) -> {
+            tvName.setTextColor(color);
+            tvUsername.setTextColor(color);
+        });
+        compositeDisposable.add(disposable);
+
+        disposable = currentUser.getBackgroundImageObservable().subscribe((image) -> {
+            headerView.setBackground(new BitmapDrawable(this.getBaseContext().getResources(), image));
+        });
+        compositeDisposable.add(disposable);
+
+        ImageView imageView = headerView.findViewById(R.id.ivProfileImage);
+
+        disposable = currentUser.getProfileImageObservable().subscribe(imageView::setImageBitmap);
+        compositeDisposable.add(disposable);
+
+        /*UserModel userModel = AuthManager.getInstance().getUserModel();
 
         NavigationView navigationView = this.findViewById(R.id.nav_view);
         final View headerView = navigationView.getHeaderView(0);
 
         ImageView imageView = headerView.findViewById(R.id.ivProfileImage);
-        Picasso.get().load(userModel.getProfileImageUrl()).resize(72, 72).transform(new CircleTransform()).into(imageView);
+        Picasso.get().load(userModel.getProfileImageUrl()).transform(new CircleTransform()).into(imageView);
 
         TextView textView = headerView.findViewById(R.id.tvName);
         textView.setText(userModel.getName());
 
         textView = headerView.findViewById(R.id.tvUsername);
-        textView.setText(userModel.getUsername());
+        textView.setText(userModel.getUsername());*/
     }
 
     private void loadFragment(Class fragmentClass) {

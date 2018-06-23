@@ -43,17 +43,18 @@ public class SharedPreferencesManager {
         this.apply();
     }
 
-    public void edit() {
-        if (this.shEditor == null) {
-            this.shEditor = this.preferences.edit();
-        }
-    }
-
     public String getString(String key, String defaultValue) {
         return this.preferences.getString(key, defaultValue);
     }
 
     public void putString(String key, String value) {
+        this.edit();
         this.shEditor.putString(key, value);
+    }
+
+    private void edit() {
+        if (this.shEditor == null) {
+            this.shEditor = this.preferences.edit();
+        }
     }
 }
