@@ -2,18 +2,12 @@ package nl.saxion.act.i7.quitter.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONObject;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -31,9 +25,9 @@ public class UserModel {
     private String name;
 
     /***
-     * The username of the user.
+     * The screen name of the user.
      */
-    private String username;
+    private String screenName;
 
     /***
      * The description of the user.
@@ -62,7 +56,7 @@ public class UserModel {
         try {
             this.id = jsonObject.getLong("id");
             this.name = jsonObject.getString("name");
-            this.username = String.format("@%s", jsonObject.getString("screen_name"));
+            this.screenName = String.format("@%s", jsonObject.getString("screen_name"));
             this.description = jsonObject.getString("description");
 
             this.backgroundImage = BehaviorSubject.create();
@@ -109,12 +103,12 @@ public class UserModel {
     }
 
     /***
-     * Get the username of the user.
+     * Get the screen name of the user.
      *
-     * @return The username of the user.
+     * @return The screen name of the user.
      */
-    public String getUsername() {
-        return username;
+    public String getScreenName() {
+        return screenName;
     }
 
     /***

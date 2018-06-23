@@ -7,32 +7,62 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.ArrayList;
 
-import nl.saxion.act.i7.quitter.models.TweetModel;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import nl.saxion.act.i7.quitter.R;
+import nl.saxion.act.i7.quitter.models.TweetModel;
+import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     public TweetDataAdapter(@NonNull Context context, @NonNull ArrayList<TweetModel> objects) {
         super(context, 0, objects);
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+
+        this.compositeDisposable.dispose();
+        this.compositeDisposable.clear();
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        TweetModel tweetModel = this.getItem(position);
+        TweetModel tweet = this.getItem(position);
+        UserModel user = tweet.getUser();
 
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.tweet_layout, parent, false);
         }
 
-        TextView textView = convertView.findViewById(R.id.tweetText);
-        textView.setText(tweetModel.getText());
+        ImageView imageView = convertView.findViewById(R.id.ivProfileImage);
 
-        textView = convertView.findViewById(R.id.tweetUser);
-        textView.setText(tweetModel.getUser().getName());
+        Disposable disposable = user.getProfileImageObservable().subscribe(imageView::setImageBitmap);
+        this.compositeDisposable.add(disposable);
+
+        TextView textView = convertView.findViewById(R.id.tvUserName);
+        textView.setText(tweet.getUser().getName());
+
+        textView = convertView.findViewById(R.id.tvScreenName);
+        textView.setText(user.getScreenName());
+
+        PrettyTime prettyTime = new PrettyTime();
+
+        textView = convertView.findViewById(R.id.tvTime);
+        textView.setText(prettyTime.format(tweet.getCreatedAt()));
+
+        textView = convertView.findViewById(R.id.tvText);
+        textView.setText(tweet.getText());
 
         return convertView;
     }

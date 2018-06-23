@@ -2,7 +2,6 @@ package nl.saxion.act.i7.quitter.activities;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvName.setText(currentUser.getName());
 
         TextView tvUsername = headerView.findViewById(R.id.tvUsername);
-        tvUsername.setText(currentUser.getUsername());
+        tvUsername.setText(currentUser.getScreenName());
 
         disposable = currentUser.getProfileTextColorObservable().subscribe((color) -> {
             tvName.setTextColor(color);

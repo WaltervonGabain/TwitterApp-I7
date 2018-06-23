@@ -1,11 +1,19 @@
 package nl.saxion.act.i7.quitter.models;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import nl.saxion.act.i7.quitter.data_providers.UserDataProvider;
 
 public class TweetModel {
+    private static final String TWITTER_DATE = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+
     /***
      * The text of the tweet.
      */
@@ -16,6 +24,8 @@ public class TweetModel {
      */
     private UserModel user;
 
+    private Date createdAt;
+
     /***
      * Constructor.
      *
@@ -23,9 +33,15 @@ public class TweetModel {
      *
      * @throws JSONException JSON exception.
      */
-    public TweetModel(JSONObject jsonObject) throws JSONException {
-        this.text = jsonObject.getString("text");
-        this.user = UserDataProvider.getOrAdd(jsonObject.getJSONObject("user"));
+    public TweetModel(JSONObject jsonObject) {
+        try {
+            this.text = jsonObject.getString("text");
+            this.user = UserDataProvider.getOrAdd(jsonObject.getJSONObject("user"));
+
+            this.createdAt = new SimpleDateFormat(TWITTER_DATE, Locale.ENGLISH).parse(jsonObject.getString("created_at"));
+        } catch (Exception ex) {
+            Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
+        }
     }
 
     /***
@@ -44,5 +60,9 @@ public class TweetModel {
      */
     public UserModel getUser() {
         return user;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
     }
 }
