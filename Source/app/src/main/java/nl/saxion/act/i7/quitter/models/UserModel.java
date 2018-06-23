@@ -3,6 +3,7 @@ package nl.saxion.act.i7.quitter.models;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.WorkerThread;
 import android.util.Log;
 
 import com.squareup.picasso.Picasso;
@@ -52,15 +53,11 @@ public class UserModel {
     private Observable<Integer> profileTextColorObservable;
 
     /***
-     * Store strong references to targets because Picasso will keep weak references.
-     */
-    private ArrayList<Target> picassoTargets = new ArrayList<>();
-
-    /***
      * Constructor.
      *
      * @param jsonObject The JSON object for the user.
      */
+    @WorkerThread
     public UserModel(JSONObject jsonObject) {
         try {
             this.id = jsonObject.getLong("id");
@@ -77,67 +74,16 @@ public class UserModel {
             this.profileTextColor = BehaviorSubject.create();
             this.profileTextColorObservable = this.profileTextColor.hide();
 
-            Picasso.get().setLoggingEnabled(true);
-
-            Target target;
-
             String bannerUrl = jsonObject.getString("profile_banner_url");
             if (bannerUrl != null && !bannerUrl.equals("null")) {
-                target = new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        backgroundImage.onNext(bitmap);
-
-                        try {
-                            profileTextColor.onNext(Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color"))));
-                        } catch (Exception ex) {
-                            Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
-                        }
-
-                        picassoTargets.remove(this);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                        Log.e(getClass().getName(), e.getLocalizedMessage(), e);
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                    }
-                };
-
-                this.picassoTargets.add(target);
-
-                Picasso.get()
-                        .load(bannerUrl)
-                        .into(target);
+                backgroundImage.onNext(Picasso.get().load(bannerUrl).get());
+                profileTextColor.onNext(Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color"))));
             }
 
-            target = new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    profileImage.onNext(bitmap);
-                    picassoTargets.remove(this);
-                }
-
-                @Override
-                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                    Log.e(getClass().getName(), e.getLocalizedMessage(), e);
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                }
-            };
-
-            Picasso.get()
+            profileImage.onNext(Picasso.get()
                     .load(jsonObject.getString("profile_image_url").replace("_normal", ""))
                     .transform(new CircleTransform())
-                    .into(target);
-
-            this.picassoTargets.add(target);
-
+                    .get());
 
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);

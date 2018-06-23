@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import nl.saxion.act.i7.quitter.models.UserModel;
 
-public class TwitterVerifyCredentialsTask extends TwitterApiTask<JSONObject> {
+public class TwitterVerifyCredentialsTask extends TwitterApiTask<UserModel> {
     @Override
     protected String getEndpoint() {
         return "account/verify_credentials.json";
@@ -20,9 +20,9 @@ public class TwitterVerifyCredentialsTask extends TwitterApiTask<JSONObject> {
     }
 
     @Override
-    protected JSONObject onSuccess(String response) {
+    protected UserModel onSuccess(String response) {
         try {
-            return new JSONObject(response);
+            return new UserModel(new JSONObject(response));
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
         }

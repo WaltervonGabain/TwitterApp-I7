@@ -92,8 +92,8 @@ public class AuthManager {
         return Single.create(emitter -> {
             Runnable runnable = () -> new TwitterVerifyCredentialsTask()
                     .onError(() -> emitter.onSuccess(false))
-                    .onResult((jsonObject) -> {
-                        if(jsonObject != null) {
+                    .onResult((user) -> {
+                        if(user != null) {
                             SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance();
 
                             sharedPreferences.putString("token", this.oAuthAccessToken.getToken());
@@ -101,7 +101,7 @@ public class AuthManager {
                             sharedPreferences.putString("rawResponse", this.oAuthAccessToken.getRawResponse());
                             sharedPreferences.apply();
 
-                            Application.getInstance().setCurrentUser(new UserModel(jsonObject));
+                            Application.getInstance().setCurrentUser(user);
                             emitter.onSuccess(true);
                         } else {
                             emitter.onSuccess(false);
