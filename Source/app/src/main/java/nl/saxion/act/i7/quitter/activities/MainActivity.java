@@ -113,20 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         disposable = currentUser.getProfileImageObservable().subscribe(imageView::setImageBitmap);
         compositeDisposable.add(disposable);
-
-        /*UserModel userModel = AuthManager.getInstance().getUserModel();
-
-        NavigationView navigationView = this.findViewById(R.id.nav_view);
-        final View headerView = navigationView.getHeaderView(0);
-
-        ImageView imageView = headerView.findViewById(R.id.ivProfileImage);
-        Picasso.get().load(userModel.getProfileImageUrl()).transform(new CircleTransform()).into(imageView);
-
-        TextView textView = headerView.findViewById(R.id.tvName);
-        textView.setText(userModel.getName());
-
-        textView = headerView.findViewById(R.id.tvUsername);
-        textView.setText(userModel.getUsername());*/
     }
 
     private void loadFragment(Class fragmentClass) {
