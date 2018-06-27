@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import nl.saxion.act.i7.quitter.data_providers.UserDataProvider;
+import nl.saxion.act.i7.quitter.Application;
 
 public class TweetModel {
     private static final String TWITTER_DATE = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -36,7 +36,13 @@ public class TweetModel {
     public TweetModel(JSONObject jsonObject) {
         try {
             this.text = jsonObject.getString("text");
-            this.user = UserDataProvider.getOrAdd(jsonObject.getJSONObject("user"));
+
+            JSONObject userJson = jsonObject.getJSONObject("user");
+
+            this.user = Application.getInstance().getUsersManager().get(userJson);
+            if (this.user == null) {
+                this.user = Application.getInstance().getUsersManager().add(userJson);
+            }
 
             this.createdAt = new SimpleDateFormat(TWITTER_DATE, Locale.ENGLISH).parse(jsonObject.getString("created_at"));
         } catch (Exception ex) {

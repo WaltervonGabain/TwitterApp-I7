@@ -101,7 +101,7 @@ public class AuthManager {
                             sharedPreferences.putString("rawResponse", this.oAuthAccessToken.getRawResponse());
                             sharedPreferences.apply();
 
-                            Application.getInstance().setCurrentUser(user);
+                            Application.getInstance().getUsersManager().setCurrentUser(user);
                             emitter.onSuccess(true);
                         } else {
                             emitter.onSuccess(false);
@@ -126,7 +126,7 @@ public class AuthManager {
 
     public void logout() {
         this.oAuthAccessToken = null;
-        Application.getInstance().setCurrentUser(null);
+        Application.getInstance().getUsersManager().setCurrentUser(null);
     }
 
     public void signRequest(OAuthRequest request) {

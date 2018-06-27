@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void bindUserDetails() {
-        UserModel currentUser = Application.getInstance().getCurrentUser();
+        UserModel currentUser = Application.getInstance().getUsersManager().getCurrentUser();
 
         Disposable disposable;
 
