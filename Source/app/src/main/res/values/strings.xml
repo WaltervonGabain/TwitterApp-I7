@@ -10,10 +10,11 @@
     <string name="title_activity_login">Sign in</string>
 
     <string name="name">Name</string>
-    <string name="email">Email</string>
+
     <string name="password">Password</string>
 
     <string name="nav_home">Home</string>
+    <string name="nav_my_profile">My profile</string>
 
     <string name="navigation_open">Open navigation</string>
     <string name="navigation_close">Close navigation</string>

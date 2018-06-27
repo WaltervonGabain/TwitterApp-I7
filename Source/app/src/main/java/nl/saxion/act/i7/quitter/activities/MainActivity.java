@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.fragments.HomeFragment;
+import nl.saxion.act.i7.quitter.fragments.ProfileFragment;
 import nl.saxion.act.i7.quitter.managers.AuthManager;
 import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
 import nl.saxion.act.i7.quitter.models.UserModel;
@@ -63,7 +65,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_logout) {
+        if (id == R.id.nav_my_profile) {
+            Bundle bundle = new Bundle();
+            bundle.putLong("id", Application.getInstance().getUsersManager().getCurrentUser().getId());
+
+            this.loadFragment(ProfileFragment.class, bundle);
+        }
+        else if (id == R.id.nav_logout) {
             AuthManager.getInstance().logout();
             SharedPreferencesManager.getInstance().clear();
 

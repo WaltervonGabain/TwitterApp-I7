@@ -9,9 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import io.reactivex.functions.Consumer;
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.data_adapters.TweetDataAdapter;
+import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterHomeTimelineTask;
+import nl.saxion.act.i7.quitter.tasks.twitter.TwitterUserTimelineTask;
 
 public class HomeFragment extends Fragment {
     public HomeFragment() {
@@ -30,12 +36,29 @@ public class HomeFragment extends Fragment {
         View view = this.getView();
 
         if (context != null && view != null) {
-            new TwitterHomeTimelineTask()
-                    .onResult((tweets) -> {
-                        ListView listView = view.findViewById(R.id.lvTweets);
-                        listView.setAdapter(new TweetDataAdapter(context, tweets));
-                    })
-                    .execute();
+            Bundle bundle = this.getArguments();
+
+            Consumer<ArrayList<TweetModel>> consumer = (tweets) -> {
+                ListView listView = view.findViewById(R.id.lvTweets);
+
+                // If we have a bundle, it is the profile page.
+                listView.setAdapter(new TweetDataAdapter(context, tweets, bundle != null));
+
+                listView.setVisibility(View.VISIBLE);
+
+                View pleaseWait = view.findViewById(R.id.cvPleaseWait);
+                pleaseWait.setVisibility(View.GONE);
+            };
+
+            if(bundle == null) {
+                new TwitterHomeTimelineTask()
+                        .onResult(consumer)
+                        .execute();
+            } else {
+                new TwitterUserTimelineTask(bundle.getLong("id"))
+                        .onResult(consumer)
+                        .execute();
+            }
         }
     }
 }

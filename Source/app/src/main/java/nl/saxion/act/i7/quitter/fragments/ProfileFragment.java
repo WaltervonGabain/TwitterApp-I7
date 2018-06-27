@@ -3,6 +3,7 @@ package nl.saxion.act.i7.quitter.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,15 @@ public class ProfileFragment extends Fragment {
         if (view != null) {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
-                UserModel user = Application.getInstance().getUsersManager().get(bundle.getLong("id"));
+                UsersManager usersManager = Application.getInstance().getUsersManager();
+                long userId = bundle.getLong("id");
+
+                UserModel user;
+                if (userId == usersManager.getCurrentUser().getId()) {
+                    user = usersManager.getCurrentUser();
+                } else {
+                    user = usersManager.get(userId);
+                }
 
                 ImageView imageView = view.findViewById(R.id.ivBackgroundImage);
                 imageView.setImageBitmap(user.getBackgroundImage());
@@ -46,7 +55,18 @@ public class ProfileFragment extends Fragment {
                 textView.setText(user.getScreenName());
 
                 textView = view.findViewById(R.id.tvDescription);
-                textView.setText(user.getDescription());
+
+                if (user.getDescription().isEmpty()) {
+                    textView.setVisibility(View.GONE);
+                } else {
+                    textView.setText(user.getDescription());
+                }
+
+                Bundle timelineBundle = new Bundle();
+                timelineBundle.putLong("id", user.getId());
+
+                Fragment fragment = this.getChildFragmentManager().findFragmentById(R.id.fragmentTimeline);
+                fragment.setArguments(timelineBundle);
             }
         }
     }

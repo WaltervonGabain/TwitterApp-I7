@@ -21,8 +21,11 @@ import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
-    public TweetDataAdapter(@NonNull Context context, @NonNull ArrayList<TweetModel> objects) {
+    private boolean isProfilePage;
+
+    public TweetDataAdapter(@NonNull Context context, @NonNull ArrayList<TweetModel> objects, boolean isProfilePage) {
         super(context, 0, objects);
+        this.isProfilePage = isProfilePage;
     }
 
     @NonNull
@@ -41,14 +44,16 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
                 ImageView imageView = convertView.findViewById(R.id.ivProfileImage);
                 imageView.setImageBitmap(user.getProfileImage());
 
-                imageView.setOnClickListener((view) -> {
-                    MainActivity context = (MainActivity)this.getContext();
+                if(!this.isProfilePage) {
+                    imageView.setOnClickListener((view) -> {
+                        MainActivity context = (MainActivity) this.getContext();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("id", user.getId());
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("id", user.getId());
 
-                    context.loadFragment(ProfileFragment.class, bundle);
-                });
+                        context.loadFragment(ProfileFragment.class, bundle);
+                    });
+                }
 
                 TextView textView = convertView.findViewById(R.id.tvUserName);
                 textView.setText(tweet.getUser().getName());
