@@ -16,7 +16,22 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/colorBackground"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:contentInsetStart="0dp"
+            android:focusableInTouchMode="true"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:iconifiedByDefault="false"
+                android:queryHint="@string/search" />
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
