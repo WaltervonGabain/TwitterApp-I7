@@ -81,5 +81,15 @@
             app:layout_constraintTop_toBottomOf="@+id/tvScreenName"
             tools:text="Description" />
 
+        <fragment
+            android:id="@+id/fragmentTimeline"
+            android:name="nl.saxion.act.i7.quitter.fragments.HomeFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
