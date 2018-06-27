@@ -18,8 +18,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.fragments.HomeFragment;
@@ -28,8 +26,6 @@ import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,32 +82,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void bindUserDetails() {
         UserModel currentUser = Application.getInstance().getUsersManager().getCurrentUser();
 
-        Disposable disposable;
-
         NavigationView navigationView = this.findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
         TextView tvName = headerView.findViewById(R.id.tvName);
         tvName.setText(currentUser.getName());
+        tvName.setTextColor(currentUser.getProfileTextColor());
 
         TextView tvUsername = headerView.findViewById(R.id.tvUsername);
         tvUsername.setText(currentUser.getScreenName());
+        tvUsername.setTextColor(currentUser.getProfileTextColor());
 
-        disposable = currentUser.getProfileTextColorObservable().subscribe((color) -> {
-            tvName.setTextColor(color);
-            tvUsername.setTextColor(color);
-        });
-        compositeDisposable.add(disposable);
-
-        disposable = currentUser.getBackgroundImageObservable().subscribe((image) -> {
-            headerView.setBackground(new BitmapDrawable(this.getBaseContext().getResources(), image));
-        });
-        compositeDisposable.add(disposable);
+        headerView.setBackground(new BitmapDrawable(this.getBaseContext().getResources(), currentUser.getBackgroundImage()));
 
         ImageView imageView = headerView.findViewById(R.id.ivProfileImage);
-
-        disposable = currentUser.getProfileImageObservable().subscribe(imageView::setImageBitmap);
-        compositeDisposable.add(disposable);
+        imageView.setImageBitmap(currentUser.getProfileImage());
     }
 
     private void loadFragment(Class fragmentClass) {

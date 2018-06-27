@@ -13,25 +13,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-
     public TweetDataAdapter(@NonNull Context context, @NonNull ArrayList<TweetModel> objects) {
         super(context, 0, objects);
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-
-        this.compositeDisposable.dispose();
-        this.compositeDisposable.clear();
     }
 
     @NonNull
@@ -46,8 +34,7 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
 
         ImageView imageView = convertView.findViewById(R.id.ivProfileImage);
 
-        Disposable disposable = user.getProfileImageObservable().subscribe(imageView::setImageBitmap);
-        this.compositeDisposable.add(disposable);
+        imageView.setImageBitmap(user.getProfileImage());
 
         TextView textView = convertView.findViewById(R.id.tvUserName);
         textView.setText(tweet.getUser().getName());

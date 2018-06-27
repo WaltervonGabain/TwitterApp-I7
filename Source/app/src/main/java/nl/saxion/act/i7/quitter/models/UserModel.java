@@ -34,17 +34,11 @@ public class UserModel {
      */
     private String description;
 
-    private BehaviorSubject<Bitmap> backgroundImage;
+    private Bitmap backgroundImage;
 
-    private Observable<Bitmap> backgroundImageObservable;
+    private Bitmap profileImage;
 
-    private BehaviorSubject<Bitmap> profileImage;
-
-    private Observable<Bitmap> profileImageObservable;
-
-    private BehaviorSubject<Integer> profileTextColor;
-
-    private Observable<Integer> profileTextColorObservable;
+    private Integer profileTextColor;
 
     /***
      * Constructor.
@@ -59,25 +53,17 @@ public class UserModel {
             this.screenName = String.format("@%s", jsonObject.getString("screen_name"));
             this.description = jsonObject.getString("description");
 
-            this.backgroundImage = BehaviorSubject.create();
-            this.backgroundImageObservable = this.backgroundImage.hide();
-
-            this.profileImage = BehaviorSubject.create();
-            this.profileImageObservable = this.profileImage.hide();
-
-            this.profileTextColor = BehaviorSubject.create();
-            this.profileTextColorObservable = this.profileTextColor.hide();
-
+            // This is called from AsyncThread in "doInBackground" so we don't need to use another async operation here.
             String bannerUrl = jsonObject.getString("profile_banner_url");
             if (bannerUrl != null && !bannerUrl.equals("null")) {
-                backgroundImage.onNext(Picasso.get().load(bannerUrl).get());
-                profileTextColor.onNext(Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color"))));
+                backgroundImage = Picasso.get().load(bannerUrl).get();
+                profileTextColor = Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color")));
             }
 
-            profileImage.onNext(Picasso.get()
+            profileImage = Picasso.get()
                     .load(jsonObject.getString("profile_image_url").replace("_normal", ""))
                     .transform(new CircleTransform())
-                    .get());
+                    .get();
 
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
@@ -120,15 +106,15 @@ public class UserModel {
         return description;
     }
 
-    public Observable<Bitmap> getBackgroundImageObservable() {
-        return this.backgroundImageObservable;
+    public Bitmap getBackgroundImage() {
+        return this.backgroundImage;
     }
 
-    public Observable<Bitmap> getProfileImageObservable() {
-        return this.profileImageObservable;
+    public Bitmap getProfileImage() {
+        return this.profileImage;
     }
 
-    public Observable<Integer> getProfileTextColorObservable() {
-        return this.profileTextColorObservable;
+    public Integer getProfileTextColor() {
+        return this.profileTextColor;
     }
 }
