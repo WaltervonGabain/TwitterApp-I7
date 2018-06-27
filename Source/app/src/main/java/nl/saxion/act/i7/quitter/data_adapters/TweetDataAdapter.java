@@ -1,6 +1,7 @@
 package nl.saxion.act.i7.quitter.data_adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.format.DateUtils;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import nl.saxion.act.i7.quitter.R;
+import nl.saxion.act.i7.quitter.activities.MainActivity;
+import nl.saxion.act.i7.quitter.fragments.ProfileFragment;
 import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
@@ -25,31 +28,44 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        TweetModel tweet = this.getItem(position);
-        UserModel user = tweet.getUser();
-
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.tweet_layout, parent, false);
         }
 
-        ImageView imageView = convertView.findViewById(R.id.ivProfileImage);
+        TweetModel tweet = this.getItem(position);
 
-        imageView.setImageBitmap(user.getProfileImage());
+        if(tweet != null) {
+            UserModel user = tweet.getUser();
 
-        TextView textView = convertView.findViewById(R.id.tvUserName);
-        textView.setText(tweet.getUser().getName());
+            if (user != null) {
+                ImageView imageView = convertView.findViewById(R.id.ivProfileImage);
+                imageView.setImageBitmap(user.getProfileImage());
 
-        textView = convertView.findViewById(R.id.tvScreenName);
-        textView.setText(user.getScreenName());
+                imageView.setOnClickListener((view) -> {
+                    MainActivity context = (MainActivity)this.getContext();
 
-        long dateMillis = tweet.getCreatedAt().getTime();
-        String relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("id", user.getId());
 
-        textView = convertView.findViewById(R.id.tvTime);
-        textView.setText(relativeDate);
+                    context.loadFragment(ProfileFragment.class, bundle);
+                });
 
-        textView = convertView.findViewById(R.id.tvText);
-        textView.setText(tweet.getText());
+                TextView textView = convertView.findViewById(R.id.tvUserName);
+                textView.setText(tweet.getUser().getName());
+
+                textView = convertView.findViewById(R.id.tvScreenName);
+                textView.setText(user.getScreenName());
+
+                long dateMillis = tweet.getCreatedAt().getTime();
+                String relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+
+                textView = convertView.findViewById(R.id.tvTime);
+                textView.setText(relativeDate);
+
+                textView = convertView.findViewById(R.id.tvText);
+                textView.setText(tweet.getText());
+            }
+        }
 
         return convertView;
     }

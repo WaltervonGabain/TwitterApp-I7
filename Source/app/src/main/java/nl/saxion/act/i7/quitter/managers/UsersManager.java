@@ -26,6 +26,10 @@ public class UsersManager {
         return user;
     }
 
+    public UserModel get(long id) {
+        return this.cachedUsers.get(id);
+    }
+
     public UserModel get(JSONObject jsonObject) {
         try {
             return this.cachedUsers.get(jsonObject.getLong("id"));

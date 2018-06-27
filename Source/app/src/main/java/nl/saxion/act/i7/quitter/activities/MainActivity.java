@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.bindUserDetails();
 
         if (savedInstanceState == null) {
-            this.loadFragment(HomeFragment.class);
+            this.loadFragment(HomeFragment.class, null);
         }
     }
 
@@ -79,6 +79,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public void loadFragment(Class fragmentClass, Bundle bundle) {
+        Fragment fragment = null;
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+
+            if (bundle != null) {
+                fragment.setArguments(bundle);
+            }
+        } catch (Exception ex) {
+            Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
+        }
+
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_content, fragment, fragmentClass.getName()).addToBackStack(null).commit();
+    }
+
     private void bindUserDetails() {
         UserModel currentUser = Application.getInstance().getUsersManager().getCurrentUser();
 
@@ -97,18 +114,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ImageView imageView = headerView.findViewById(R.id.ivProfileImage);
         imageView.setImageBitmap(currentUser.getProfileImage());
-    }
-
-    private void loadFragment(Class fragmentClass) {
-        Fragment fragment = null;
-
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception ex) {
-            Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
-        }
-
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_content, fragment).commit();
     }
 }
