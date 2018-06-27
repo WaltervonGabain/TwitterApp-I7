@@ -1,17 +1,16 @@
 package nl.saxion.act.i7.quitter.managers;
 
 import android.util.Log;
+import android.util.LongSparseArray;
 
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class UsersManager {
     private UserModel currentUser;
 
-    private HashMap<Long, UserModel> cachedUsers = new HashMap<>();
+    private LongSparseArray<UserModel> cachedUsers = new LongSparseArray<>();
 
     public UsersManager() {
     }
