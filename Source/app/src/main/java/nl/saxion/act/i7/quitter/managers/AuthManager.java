@@ -19,13 +19,13 @@ import nl.saxion.act.i7.quitter.tasks.auth.AuthRequestTokenTask;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterVerifyCredentialsTask;
 
 public class AuthManager {
-    public final static String CALLBACK_URL = "https://www.quitter.com";
-
-    private final static String apiKey = "iYaFaQKtk7MDtIg9oBTgq1vfn";
-
-    private final static String apiSecret = "V4RDmqzfd36Mveo43VYcPkWsOsOUsuS72vts5eOfZtrCNCEeoV";
-
     private static AuthManager instance;
+
+    private String apiKey = "iYaFaQKtk7MDtIg9oBTgq1vfn";
+
+    private String apiSecret = "V4RDmqzfd36Mveo43VYcPkWsOsOUsuS72vts5eOfZtrCNCEeoV";
+
+    private String callbackUrl = "https://www.quitter.com";
 
     private OAuth10aService oAuthService;
 
@@ -34,8 +34,8 @@ public class AuthManager {
     private OAuth1RequestToken requestToken;
 
     private AuthManager() {
-        this.oAuthService = new ServiceBuilder(apiKey)
-                .apiSecret(apiSecret)
+        this.oAuthService = new ServiceBuilder(this.apiKey)
+                .apiSecret(this.apiSecret)
                 .callback(CALLBACK_URL)
                 .build(TwitterApi.instance());
 
@@ -50,8 +50,9 @@ public class AuthManager {
         }
     }
 
-    public Response executeRequest(OAuthRequest request) {
+    public Response signAndExecuteRequest(OAuthRequest request) {
         try {
+            this.signRequest(request);
             return this.oAuthService.execute(request);
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
@@ -78,6 +79,10 @@ public class AuthManager {
                             .execute();
                 })
                 .execute());
+    }
+
+    public String getCallbackUrl() {
+        return this.callbackUrl;
     }
 
     public OAuth1RequestToken getRequestToken() {
@@ -129,7 +134,7 @@ public class AuthManager {
         Application.getInstance().getUsersManager().setCurrentUser(null);
     }
 
-    public void signRequest(OAuthRequest request) {
+    private void signRequest(OAuthRequest request) {
         this.oAuthService.signRequest(this.oAuthAccessToken, request);
     }
 }

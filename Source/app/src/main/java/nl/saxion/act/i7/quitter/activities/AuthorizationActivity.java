@@ -54,7 +54,8 @@ public class AuthorizationActivity extends AppCompatActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if (request.getUrl().toString().startsWith(AuthManager.CALLBACK_URL)) {
+                // If the Twitter redirect us to the callback URL then we are successfully logged in.
+                if (request.getUrl().toString().startsWith(AuthManager.getInstance().getCallbackUrl())) {
                     webView.setVisibility(View.GONE);
                     webView.stopLoading();
                     webView.loadUrl("about:blank");

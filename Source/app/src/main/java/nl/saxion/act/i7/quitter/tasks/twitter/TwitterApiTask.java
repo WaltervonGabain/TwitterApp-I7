@@ -39,9 +39,8 @@ public abstract class TwitterApiTask<Result> extends AsyncTask<Void, Void, Resul
         OAuthRequest request = new OAuthRequest(this.getMethod(), API_URL + this.getEndpoint());
 
         this.onPreRequestSign(request);
-        AuthManager.getInstance().signRequest(request);
 
-        Response response = AuthManager.getInstance().executeRequest(request);
+        Response response = AuthManager.getInstance().signAndExecuteRequest(request);
         if (response.isSuccessful()) {
             try {
                 return this.onSuccess(response.getBody());
