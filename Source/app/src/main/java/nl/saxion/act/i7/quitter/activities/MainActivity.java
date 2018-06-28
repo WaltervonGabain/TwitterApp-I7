@@ -160,22 +160,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setActiveItem(Fragment fragment) {
-        if (fragment instanceof HomeFragment) {
-            this.navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-        } else if (fragment instanceof ProfileFragment) {
-            Bundle bundle = fragment.getArguments();
-            if (bundle != null) {
-                UsersManager usersManager = Application.getInstance().getUsersManager();
-                long userId = bundle.getLong("id");
+        if(this.navigationView != null) {
+            if (fragment instanceof HomeFragment) {
+                this.navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+            } else if (fragment instanceof ProfileFragment) {
+                Bundle bundle = fragment.getArguments();
+                if (bundle != null) {
+                    UsersManager usersManager = Application.getInstance().getUsersManager();
+                    long userId = bundle.getLong("id");
 
-                if (userId == usersManager.getCurrentUser().getId()) {
-                    this.navigationView.getMenu().findItem(R.id.nav_my_profile).setChecked(true);
-                } else {
-                    this.navigationView.getMenu().findItem(R.id.nav_search).setChecked(true);
+                    if (userId == usersManager.getCurrentUser().getId()) {
+                        this.navigationView.getMenu().findItem(R.id.nav_my_profile).setChecked(true);
+                    } else {
+                        this.navigationView.getMenu().findItem(R.id.nav_search).setChecked(true);
+                    }
                 }
+            } else if (fragment instanceof SearchFragment) {
+                this.navigationView.getMenu().findItem(R.id.nav_search).setChecked(true);
             }
-        } else if (fragment instanceof SearchFragment) {
-            this.navigationView.getMenu().findItem(R.id.nav_search).setChecked(true);
         }
     }
 }
