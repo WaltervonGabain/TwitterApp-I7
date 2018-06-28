@@ -81,7 +81,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
 
             FragmentManager fragmentManager = this.getSupportFragmentManager();
-            this.setActiveItem(fragmentManager.findFragmentById(R.id.fragment_content));
+
+            // Close the application if we don't have a back stack.
+            if (fragmentManager.getBackStackEntryCount() == 0) {
+                this.finish();
+                System.exit(0);
+            } else {
+                this.setActiveItem(fragmentManager.findFragmentById(R.id.fragment_content));
+            }
         }
     }
 
