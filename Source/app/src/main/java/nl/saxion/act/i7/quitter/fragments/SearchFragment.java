@@ -34,14 +34,19 @@ public class SearchFragment extends Fragment {
         if (context != null && view != null) {
             MainActivity mainActivity = (MainActivity) context;
 
+            ListView listView = view.findViewById(R.id.lvSearchResult);
+            View pleaseWait = view.findViewById(R.id.cvPleaseWait);
+
             SearchView searchView = mainActivity.findViewById(R.id.searchView);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     new TwitterUsersSearchTask(query)
                             .onResult((tweets) -> {
-                                ListView listView = view.findViewById(R.id.lvSearchResult);
                                 listView.setAdapter(new TweetDataAdapter(context, tweets, false));
+                                listView.setVisibility(View.VISIBLE);
+
+                                pleaseWait.setVisibility(View.GONE);
                             })
                             .execute();
 
@@ -50,6 +55,9 @@ public class SearchFragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
+                    listView.setVisibility(View.GONE);
+                    pleaseWait.setVisibility(View.VISIBLE);
+
                     return false;
                 }
             });

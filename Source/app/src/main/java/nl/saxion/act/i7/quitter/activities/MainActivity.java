@@ -147,11 +147,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TextView tvName = headerView.findViewById(R.id.tvName);
         tvName.setText(currentUser.getName());
-        tvName.setTextColor(currentUser.getProfileTextColor());
+
+        Integer getProfileTextColor = currentUser.getProfileTextColor();
+        if(getProfileTextColor != null) {
+            tvName.setTextColor(getProfileTextColor);
+        }
 
         TextView tvUsername = headerView.findViewById(R.id.tvUsername);
         tvUsername.setText(currentUser.getScreenName());
-        tvUsername.setTextColor(currentUser.getProfileTextColor());
+
+        if(getProfileTextColor != null) {
+            tvUsername.setTextColor(currentUser.getProfileTextColor());
+        }
 
         headerView.setBackground(new BitmapDrawable(this.getBaseContext().getResources(), currentUser.getBackgroundImage()));
 

@@ -42,7 +42,7 @@ public class UserModel {
 
     private Bitmap hugeProfileImage;
 
-    private Integer profileTextColor;
+    private Integer profileTextColor = Color.rgb(0, 0, 0);
 
     /***
      * Constructor.
