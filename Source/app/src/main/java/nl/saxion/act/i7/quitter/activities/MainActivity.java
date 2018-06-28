@@ -27,9 +27,12 @@ import nl.saxion.act.i7.quitter.fragments.ProfileFragment;
 import nl.saxion.act.i7.quitter.fragments.SearchFragment;
 import nl.saxion.act.i7.quitter.managers.AuthManager;
 import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
+import nl.saxion.act.i7.quitter.managers.UsersManager;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = this.findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        this.navigationView = this.findViewById(R.id.nav_view);
+        this.navigationView.setNavigationItemSelectedListener(this);
 
         SearchView searchView = this.findViewById(R.id.searchView);
         searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
@@ -71,11 +74,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = this.findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
+            FragmentManager fragmentManager = this.getSupportFragmentManager();
+            this.setActiveItem(fragmentManager.findFragmentById(R.id.fragment_content));
         }
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        this.setActiveItem(fragment);
     }
 
     @Override
@@ -130,8 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void bindUserDetails() {
         UserModel currentUser = Application.getInstance().getUsersManager().getCurrentUser();
 
-        NavigationView navigationView = this.findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
+        View headerView = this.navigationView.getHeaderView(0);
 
         TextView tvName = headerView.findViewById(R.id.tvName);
         tvName.setText(currentUser.getName());
@@ -145,5 +157,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ImageView imageView = headerView.findViewById(R.id.ivProfileImage);
         imageView.setImageBitmap(currentUser.getBiggerProfileImage());
+    }
+
+    private void setActiveItem(Fragment fragment) {
+        if (fragment instanceof HomeFragment) {
+            this.navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+        } else if (fragment instanceof ProfileFragment) {
+            Bundle bundle = fragment.getArguments();
+            if (bundle != null) {
+                UsersManager usersManager = Application.getInstance().getUsersManager();
+                long userId = bundle.getLong("id");
+
+                if (userId == usersManager.getCurrentUser().getId()) {
+                    this.navigationView.getMenu().findItem(R.id.nav_my_profile).setChecked(true);
+                } else {
+                    this.navigationView.getMenu().findItem(R.id.nav_search).setChecked(true);
+                }
+            }
+        } else if (fragment instanceof SearchFragment) {
+            this.navigationView.getMenu().findItem(R.id.nav_search).setChecked(true);
+        }
     }
 }
