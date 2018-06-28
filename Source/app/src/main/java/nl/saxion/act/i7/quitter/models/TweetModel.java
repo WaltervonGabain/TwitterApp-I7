@@ -30,18 +30,21 @@ public class TweetModel {
      * Constructor.
      *
      * @param jsonObject The JSON of the tweet.
-     *
-     * @throws JSONException JSON exception.
+     * @param user The user of the tweet.
      */
-    public TweetModel(JSONObject jsonObject) {
+    public TweetModel(JSONObject jsonObject, UserModel user) {
         try {
             this.text = jsonObject.getString("text");
 
-            JSONObject userJson = jsonObject.getJSONObject("user");
+            if(user == null) {
+                JSONObject userJson = jsonObject.getJSONObject("user");
 
-            this.user = Application.getInstance().getUsersManager().get(userJson);
-            if (this.user == null) {
-                this.user = Application.getInstance().getUsersManager().add(userJson);
+                this.user = Application.getInstance().getUsersManager().get(userJson);
+                if (this.user == null) {
+                    this.user = Application.getInstance().getUsersManager().add(userJson);
+                }
+            } else {
+                this.user = user;
             }
 
             this.createdAt = new SimpleDateFormat(TWITTER_DATE, Locale.ENGLISH).parse(jsonObject.getString("created_at"));

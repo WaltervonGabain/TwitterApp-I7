@@ -35,7 +35,7 @@ public class TwitterHomeTimelineTask extends TwitterApiTask<ArrayList<TweetModel
             JSONArray jsonArray = new JSONArray(response);
 
             for (int i = 0; i < jsonArray.length(); i++) {
-                tweets.add(new TweetModel(jsonArray.getJSONObject(i)));
+                tweets.add(new TweetModel(jsonArray.getJSONObject(i), null));
             }
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);

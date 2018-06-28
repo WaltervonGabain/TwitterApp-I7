@@ -12,6 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <include
+        android:id="@+id/cvNothingToShow"
+        layout="@layout/layout_nothing_to_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <fragment
         android:id="@+id/fragmentPostTweet"
         android:name="nl.saxion.act.i7.quitter.fragments.PostTweetFragment"
@@ -20,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"  />
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/lvTweets"

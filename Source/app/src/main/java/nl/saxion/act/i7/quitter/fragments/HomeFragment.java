@@ -41,12 +41,17 @@ public class HomeFragment extends Fragment {
             Bundle bundle = this.getArguments();
 
             Consumer<ArrayList<TweetModel>> consumer = (tweets) -> {
-                ListView listView = view.findViewById(R.id.lvTweets);
+                if (tweets.isEmpty()) {
+                    View nothingToShow = view.findViewById(R.id.cvNothingToShow);
+                    nothingToShow.setVisibility(View.VISIBLE);
+                } else {
+                    ListView listView = view.findViewById(R.id.lvTweets);
 
-                // If we have a bundle, it is the profile page.
-                listView.setAdapter(new TweetDataAdapter(context, tweets, bundle != null));
+                    // If we have a bundle, it is the profile page.
+                    listView.setAdapter(new TweetDataAdapter(context, tweets, bundle != null));
 
-                listView.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.VISIBLE);
+                }
 
                 View pleaseWait = view.findViewById(R.id.cvPleaseWait);
                 pleaseWait.setVisibility(View.GONE);

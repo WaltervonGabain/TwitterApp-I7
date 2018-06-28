@@ -17,12 +17,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.fragments.HomeFragment;
 import nl.saxion.act.i7.quitter.fragments.ProfileFragment;
+import nl.saxion.act.i7.quitter.fragments.SearchFragment;
 import nl.saxion.act.i7.quitter.managers.AuthManager;
 import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
 import nl.saxion.act.i7.quitter.models.UserModel;
@@ -48,6 +50,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = this.findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        SearchView searchView = this.findViewById(R.id.searchView);
+        searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                Fragment fragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_content);
+                if(!(fragment instanceof SearchFragment)) {
+                    this.loadFragment(SearchFragment.class, null);
+                }
+            }
+        });
 
         this.bindUserDetails();
 
@@ -78,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             bundle.putLong("id", Application.getInstance().getUsersManager().getCurrentUser().getId());
 
             this.loadFragment(ProfileFragment.class, bundle);
+        }
+        else if (id == R.id.nav_search) {
+            this.loadFragment(SearchFragment.class, null);
         }
         else if (id == R.id.nav_logout) {
             AuthManager.getInstance().logout();

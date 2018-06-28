@@ -34,7 +34,7 @@ public class TwitterUpdateStatusTask extends TwitterApiTask<TweetModel> {
     @Override
     TweetModel onSuccess(String response) {
         try {
-            return new TweetModel(new JSONObject(response));
+            return new TweetModel(new JSONObject(response), null);
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
         }

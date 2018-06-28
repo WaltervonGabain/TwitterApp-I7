@@ -15,6 +15,7 @@
 
     <string name="nav_home">Home</string>
     <string name="nav_my_profile">My profile</string>
+    <string name="nav_search">Search</string>
 
     <string name="navigation_open">Open navigation</string>
     <string name="navigation_close">Close navigation</string>
@@ -24,6 +25,8 @@
     <string name="tweet">Tweet</string>
     <string name="tweetError">Something happened while posting your tweet.</string>
     <string name="tweeted">You tweeted something!</string>
+
+    <string name="nothingToShow">Nothing to show here</string>
 
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in</string>

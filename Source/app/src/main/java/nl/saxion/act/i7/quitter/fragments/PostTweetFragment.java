@@ -1,5 +1,6 @@
 package nl.saxion.act.i7.quitter.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,19 +40,31 @@ public class PostTweetFragment extends Fragment {
 
             Button button = view.findViewById(R.id.btTweet);
             button.setOnClickListener((v) -> {
+                button.setEnabled(false);
+
                 EditText editText = view.findViewById(R.id.etText);
                 String text = editText.getText().toString();
 
                 if (!text.isEmpty()) {
-                   new TwitterUpdateStatusTask(text)
-                           .onResult((tweet) -> {
-                               if (tweet != null) {
-                                   Snackbar.make(view, R.string.tweeted, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                                   editText.setText("");
-                               } else {
-                                   Snackbar.make(view, R.string.tweetError, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                               }
-                           })
+                    editText.clearFocus();
+
+                    InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if(inputMethodManager != null) {
+                        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+
+                    new TwitterUpdateStatusTask(text)
+                            .onError(() -> button.setEnabled(true))
+                            .onResult((tweet) -> {
+                                button.setEnabled(true);
+
+                                if (tweet != null) {
+                                    Snackbar.make(view, R.string.tweeted, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                    editText.setText("");
+                                } else {
+                                    Snackbar.make(view, R.string.tweetError, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                }
+                            })
                             .execute();
                 }
             });

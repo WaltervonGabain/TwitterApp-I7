@@ -6,21 +6,24 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.models.TweetModel;
+import nl.saxion.act.i7.quitter.models.UserModel;
 
-public class TwitterUserTimelineTask extends TwitterApiTask<ArrayList<TweetModel>> {
-    private long userId;
+public class TwitterUsersSearchTask extends TwitterApiTask<ArrayList<TweetModel>> {
+    private String query;
 
-    public TwitterUserTimelineTask(long userId) {
-        this.userId = userId;
+    public TwitterUsersSearchTask(String query) {
+        this.query = query;
     }
 
     @Override
     String getEndpoint() {
-        return "statuses/user_timeline.json";
+        return "users/search.json";
     }
 
     @Override
@@ -30,8 +33,8 @@ public class TwitterUserTimelineTask extends TwitterApiTask<ArrayList<TweetModel
 
     @Override
     void onPreRequestSign(OAuthRequest request) {
-        request.addParameter("user_id", String.valueOf(this.userId));
-        request.addParameter("count", "15");
+        request.addParameter("q", this.query);
+        request.addParameter("count", "20");
     }
 
     @Override
@@ -42,7 +45,14 @@ public class TwitterUserTimelineTask extends TwitterApiTask<ArrayList<TweetModel
             JSONArray jsonArray = new JSONArray(response);
 
             for (int i = 0; i < jsonArray.length(); i++) {
-                tweets.add(new TweetModel(jsonArray.getJSONObject(i), null));
+                JSONObject userJson = jsonArray.getJSONObject(i);
+
+                UserModel user = Application.getInstance().getUsersManager().get(userJson);
+                if (user == null) {
+                    user = Application.getInstance().getUsersManager().add(userJson);
+                }
+
+                tweets.add(new TweetModel(userJson.getJSONObject("status"), user));
             }
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);

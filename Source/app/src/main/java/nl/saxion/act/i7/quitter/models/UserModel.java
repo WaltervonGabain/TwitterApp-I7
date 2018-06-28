@@ -58,10 +58,13 @@ public class UserModel {
             this.description = jsonObject.getString("description");
 
             // This is called from AsyncThread in "doInBackground" so we don't need to use another async operation here.
-            String bannerUrl = jsonObject.getString("profile_banner_url");
-            if (bannerUrl != null && !bannerUrl.equals("null")) {
-                backgroundImage = Picasso.get().load(bannerUrl).get();
-                profileTextColor = Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color")));
+            try {
+                String bannerUrl = jsonObject.getString("profile_banner_url");
+                if (bannerUrl != null && !bannerUrl.equals("null")) {
+                    backgroundImage = Picasso.get().load(bannerUrl).get();
+                    profileTextColor = Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color")));
+                }
+            } catch (Exception ex) {
             }
 
             String imageUrl = jsonObject.getString("profile_image_url");
