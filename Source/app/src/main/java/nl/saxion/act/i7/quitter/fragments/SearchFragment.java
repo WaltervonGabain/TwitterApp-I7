@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -35,6 +36,16 @@ public class SearchFragment extends Fragment {
             MainActivity mainActivity = (MainActivity) context;
 
             SearchView searchView = mainActivity.findViewById(R.id.searchView);
+
+            if (!searchView.isFocused()) {
+                searchView.requestFocusFromTouch();
+
+                InputMethodManager inputMethodManager = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null) {
+                    inputMethodManager.showSoftInput(searchView.findFocus(), 0);
+                }
+            }
+
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
@@ -54,6 +65,5 @@ public class SearchFragment extends Fragment {
                 }
             });
         }
-
     }
 }
