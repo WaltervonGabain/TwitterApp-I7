@@ -36,6 +36,8 @@ public class UserModel {
 
     private Bitmap backgroundImage;
 
+    private Bitmap normalProfileImage;
+
     private Bitmap biggerProfileImage;
 
     private Bitmap hugeProfileImage;
@@ -63,6 +65,11 @@ public class UserModel {
             }
 
             String imageUrl = jsonObject.getString("profile_image_url");
+
+            normalProfileImage = Picasso.get()
+                    .load(imageUrl)
+                    .transform(new CircleTransform())
+                    .get();
 
             biggerProfileImage = Picasso.get()
                     .load(imageUrl.replace("_normal", "_bigger"))
@@ -119,12 +126,16 @@ public class UserModel {
         return this.backgroundImage;
     }
 
-    public Bitmap getProfileImage() {
-        return this.biggerProfileImage;
+    public Bitmap getNormalProfileImage() {
+        return normalProfileImage;
+    }
+
+    public Bitmap getBiggerProfileImage() {
+        return biggerProfileImage;
     }
 
     public Bitmap getHugeProfileImage() {
-        return this.hugeProfileImage;
+        return hugeProfileImage;
     }
 
     public Integer getProfileTextColor() {

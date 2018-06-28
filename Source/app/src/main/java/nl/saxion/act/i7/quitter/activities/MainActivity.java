@@ -126,6 +126,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerView.setBackground(new BitmapDrawable(this.getBaseContext().getResources(), currentUser.getBackgroundImage()));
 
         ImageView imageView = headerView.findViewById(R.id.ivProfileImage);
-        imageView.setImageBitmap(currentUser.getProfileImage());
+        imageView.setImageBitmap(currentUser.getBiggerProfileImage());
     }
 }

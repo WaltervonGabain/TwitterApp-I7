@@ -42,7 +42,7 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
 
             if (user != null) {
                 ImageView imageView = convertView.findViewById(R.id.ivProfileImage);
-                imageView.setImageBitmap(user.getProfileImage());
+                imageView.setImageBitmap(user.getBiggerProfileImage());
 
                 if(!this.isProfilePage) {
                     imageView.setOnClickListener((view) -> {
