@@ -46,7 +46,7 @@ public class ProfileFragment extends Fragment {
                 imageView.setImageBitmap(user.getBackgroundImage());
 
                 imageView = view.findViewById(R.id.ivProfileImage);
-                imageView.setImageBitmap(user.getProfileImage());
+                imageView.setImageBitmap(user.getHugeProfileImage());
 
                 TextView textView = view.findViewById(R.id.tvName);
                 textView.setText(user.getName());

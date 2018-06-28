@@ -36,7 +36,9 @@ public class UserModel {
 
     private Bitmap backgroundImage;
 
-    private Bitmap profileImage;
+    private Bitmap biggerProfileImage;
+
+    private Bitmap hugeProfileImage;
 
     private Integer profileTextColor;
 
@@ -60,8 +62,15 @@ public class UserModel {
                 profileTextColor = Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color")));
             }
 
-            profileImage = Picasso.get()
-                    .load(jsonObject.getString("profile_image_url").replace("_normal", ""))
+            String imageUrl = jsonObject.getString("profile_image_url");
+
+            biggerProfileImage = Picasso.get()
+                    .load(imageUrl.replace("_normal", "_bigger"))
+                    .transform(new CircleTransform())
+                    .get();
+
+            hugeProfileImage = Picasso.get()
+                    .load(imageUrl.replace("_normal", "_400x400"))
                     .transform(new CircleTransform())
                     .get();
 
@@ -111,7 +120,11 @@ public class UserModel {
     }
 
     public Bitmap getProfileImage() {
-        return this.profileImage;
+        return this.biggerProfileImage;
+    }
+
+    public Bitmap getHugeProfileImage() {
+        return this.hugeProfileImage;
     }
 
     public Integer getProfileTextColor() {
