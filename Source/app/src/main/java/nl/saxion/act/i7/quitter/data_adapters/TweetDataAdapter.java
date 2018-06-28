@@ -32,7 +32,7 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.tweet_layout, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_tweet, parent, false);
         }
 
         TweetModel tweet = this.getItem(position);
