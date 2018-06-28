@@ -21,6 +21,10 @@
 
     <string name="search">Search</string>
 
+    <string name="tweet">Tweet</string>
+    <string name="tweetError">Something happened while posting your tweet.</string>
+    <string name="tweeted">You tweeted something!</string>
+
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in</string>
     <string name="please_wait">Please wait...</string>

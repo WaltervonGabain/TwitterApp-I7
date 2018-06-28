@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,15 +52,27 @@ public class HomeFragment extends Fragment {
                 pleaseWait.setVisibility(View.GONE);
             };
 
+            FragmentManager fragmentManager = this.getChildFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentPostTweet);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
             if(bundle == null) {
+                fragmentTransaction.show(fragment);
+
                 new TwitterHomeTimelineTask()
                         .onResult(consumer)
                         .execute();
             } else {
+                fragmentTransaction.hide(fragment);
+
                 new TwitterUserTimelineTask(bundle.getLong("id"))
                         .onResult(consumer)
                         .execute();
             }
+
+            fragmentTransaction.commit();
+
+            // TODO: Show a message if there are no tweets.
         }
     }
 }

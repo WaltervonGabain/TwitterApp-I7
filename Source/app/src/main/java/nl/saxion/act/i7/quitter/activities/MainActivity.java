@@ -70,7 +70,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_my_profile) {
+        if (id == R.id.nav_home) {
+            this.loadFragment(HomeFragment.class, null);
+        }
+        else if (id == R.id.nav_my_profile) {
             Bundle bundle = new Bundle();
             bundle.putLong("id", Application.getInstance().getUsersManager().getCurrentUser().getId());
 
