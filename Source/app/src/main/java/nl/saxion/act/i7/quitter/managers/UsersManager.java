@@ -55,7 +55,7 @@ public class UsersManager {
     }
 
     /***
-     * Get an user by ID.
+     * Get a user by ID.
      *
      * @param id The user's ID.
      *
@@ -66,7 +66,7 @@ public class UsersManager {
     }
 
     /***
-     * Get an user by his JSON object.
+     * Get a user by his JSON object.
      *
      * @param jsonObject The JSON object of the user.
      *
@@ -83,7 +83,7 @@ public class UsersManager {
     }
 
     /***
-     * Remove an user from the list.
+     * Remove a user from the list.
      *
      * @param id The ID of the user.
      */

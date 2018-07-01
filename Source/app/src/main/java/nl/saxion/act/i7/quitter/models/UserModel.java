@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import nl.saxion.act.i7.quitter.utilities.CircleTransform;
 
 /***
- * A model for an user.
+ * A model for a user.
  */
 public class UserModel {
     /***
