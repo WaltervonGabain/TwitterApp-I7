@@ -3,6 +3,7 @@ package nl.saxion.act.i7.quitter.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -67,12 +68,14 @@ public class HomeFragment extends Fragment {
                 fragmentTransaction.show(fragment);
 
                 new TwitterHomeTimelineTask()
+                        .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
                         .onResult(consumer)
                         .execute();
             } else {
                 fragmentTransaction.hide(fragment);
 
                 new TwitterUserTimelineTask(bundle.getLong("id"))
+                        .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
                         .onResult(consumer)
                         .execute();
             }

@@ -58,7 +58,10 @@ public class PostTweetFragment extends Fragment {
                     }
 
                     new TwitterUpdateStatusTask(text)
-                            .onError(() -> button.setEnabled(true))
+                            .onError(() -> {
+                                button.setEnabled(true);
+                                Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                            })
                             .onResult((tweet) -> {
                                 button.setEnabled(true);
 
