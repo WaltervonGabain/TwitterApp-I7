@@ -14,6 +14,8 @@ import nl.saxion.act.i7.quitter.Application;
 public class TweetModel {
     private static final String TWITTER_DATE = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
 
+    private long id;
+
     /***
      * The text of the tweet.
      */
@@ -26,6 +28,12 @@ public class TweetModel {
 
     private Date createdAt;
 
+    private int retweetCount;
+
+    private int favoriteCount;
+
+    private boolean favorited;
+
     /***
      * Constructor.
      *
@@ -34,7 +42,18 @@ public class TweetModel {
      */
     public TweetModel(JSONObject jsonObject, UserModel user) {
         try {
+            this.id = jsonObject.getLong("id");
             this.text = jsonObject.getString("text");
+            this.retweetCount = jsonObject.getInt("retweet_count");
+            this.favorited = jsonObject.getBoolean("favorited");
+
+            // Get the likes from the original tweet, if this is a retweet.
+            if(jsonObject.has("retweeted_status")) {
+                JSONObject retweetedStatus = jsonObject.getJSONObject("retweeted_status");
+                this.favoriteCount = retweetedStatus.getInt("favorite_count");
+            } else {
+                this.favoriteCount = jsonObject.getInt("favorite_count");
+            }
 
             if(user == null) {
                 JSONObject userJson = jsonObject.getJSONObject("user");
@@ -51,6 +70,10 @@ public class TweetModel {
         } catch (Exception ex) {
             Log.e(this.getClass().getName(), ex.getLocalizedMessage(), ex);
         }
+    }
+
+    public long getId() {
+        return id;
     }
 
     /***
@@ -73,5 +96,25 @@ public class TweetModel {
 
     public Date getCreatedAt() {
         return this.createdAt;
+    }
+
+    public int getRetweetCount() {
+        return this.retweetCount;
+    }
+
+    public int getFavoriteCount() {
+        return this.favoriteCount;
+    }
+
+    public boolean isFavorited() {
+        return favorited;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
+    public void setFavorited(boolean favorited) {
+        this.favorited = favorited;
     }
 }

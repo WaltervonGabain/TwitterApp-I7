@@ -26,6 +26,8 @@
     <string name="tweetError">Something happened while posting your tweet.</string>
     <string name="tweeted">You tweeted something!</string>
 
+    <string name="somethingWentWrong">Something when wrong, couldn\'t perform the action.</string>
+
     <string name="nothingToShow">Nothing to show here</string>
 
     <!-- Strings related to login -->

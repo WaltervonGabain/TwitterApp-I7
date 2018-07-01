@@ -80,4 +80,31 @@
         app:layout_constraintTop_toBottomOf="@+id/tvScreenName"
         tools:text="Text" />
 
+    <Button
+        android:id="@+id/btRetweets"
+        android:layout_width="56dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/ic_retweets_darker_gray_24dp"
+        android:enabled="false"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvText"
+        tools:text="0" />
+
+    <Button
+        android:id="@+id/btFavorite"
+        android:layout_width="56dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/ic_favorite_border_darker_gray_24dp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toEndOf="@+id/btRetweets"
+        app:layout_constraintTop_toBottomOf="@+id/tvText"
+        tools:text="0" />
+
 </android.support.constraint.ConstraintLayout>

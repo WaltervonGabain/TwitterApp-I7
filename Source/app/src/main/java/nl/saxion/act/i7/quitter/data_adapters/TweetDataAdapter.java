@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +22,8 @@ import nl.saxion.act.i7.quitter.activities.MainActivity;
 import nl.saxion.act.i7.quitter.fragments.ProfileFragment;
 import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.models.UserModel;
+import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFavoriteCreateTask;
+import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFavoriteDestroyTask;
 
 public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
     private boolean isProfilePage;
@@ -44,7 +49,7 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
                 ImageView imageView = convertView.findViewById(R.id.ivProfileImage);
                 imageView.setImageBitmap(user.getBiggerProfileImage());
 
-                if(!this.isProfilePage) {
+                if (!this.isProfilePage) {
                     imageView.setOnClickListener((view) -> {
                         MainActivity context = (MainActivity) this.getContext();
 
@@ -69,9 +74,55 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
 
                 textView = convertView.findViewById(R.id.tvText);
                 textView.setText(tweet.getText());
+
+                Button button = convertView.findViewById(R.id.btRetweets);
+                button.setText(String.valueOf(tweet.getRetweetCount()));
+
+                Button favoriteButton = convertView.findViewById(R.id.btFavorite);
+                favoriteButton.setText(String.valueOf(tweet.getFavoriteCount()));
+
+                favoriteButton.setOnClickListener((view) -> {
+                    Runnable runnable = () -> {
+                        tweet.setFavorited(!tweet.isFavorited());
+                        this.setFavoriteButtonDrawableAndTextColor(tweet, favoriteButton);
+
+                        if (tweet.isFavorited()) {
+                            tweet.setFavoriteCount(tweet.getFavoriteCount() + 1);
+                        } else {
+                            tweet.setFavoriteCount(tweet.getFavoriteCount() - 1);
+                        }
+
+
+                        favoriteButton.setText(String.valueOf(tweet.getFavoriteCount()));
+                    };
+
+                    if (tweet.isFavorited()) {
+                        new TwitterFavoriteDestroyTask(tweet.getId())
+                                .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
+                                .onResult((result) -> runnable.run())
+                                .execute();
+                    } else {
+                        new TwitterFavoriteCreateTask(tweet.getId())
+                                .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
+                                .onResult((result) -> runnable.run())
+                                .execute();
+                    }
+                });
+
+                this.setFavoriteButtonDrawableAndTextColor(tweet, favoriteButton);
             }
         }
 
         return convertView;
+    }
+
+    private void setFavoriteButtonDrawableAndTextColor(TweetModel tweet, Button button) {
+        if(tweet.isFavorited()) {
+            button.setCompoundDrawablesWithIntrinsicBounds(this.getContext().getDrawable(R.drawable.ic_favorited_red_24dp), null, null, null);
+            button.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorFavorite));
+        } else {
+            button.setCompoundDrawablesWithIntrinsicBounds(this.getContext().getDrawable(R.drawable.ic_favorite_border_darker_gray_24dp), null, null, null);
+            button.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorDarkerGrey));
+        }
     }
 }
