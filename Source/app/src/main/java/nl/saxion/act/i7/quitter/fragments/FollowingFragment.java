@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.data_adapters.ProfileDataAdapter;
-import nl.saxion.act.i7.quitter.data_adapters.TweetDataAdapter;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFriendsListTask;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFriendshipLookupTask;
 

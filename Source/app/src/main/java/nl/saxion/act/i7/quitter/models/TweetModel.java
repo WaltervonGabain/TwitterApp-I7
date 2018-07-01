@@ -2,7 +2,6 @@ package nl.saxion.act.i7.quitter.models;
 
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;

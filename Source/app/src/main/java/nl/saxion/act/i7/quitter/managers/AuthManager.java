@@ -12,10 +12,9 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 
 import io.reactivex.Single;
 import nl.saxion.act.i7.quitter.Application;
-import nl.saxion.act.i7.quitter.models.UserModel;
+import nl.saxion.act.i7.quitter.tasks.auth.AuthRequestTokenTask;
 import nl.saxion.act.i7.quitter.tasks.auth.AuthTokenExchangeTask;
 import nl.saxion.act.i7.quitter.tasks.auth.AuthUrlTask;
-import nl.saxion.act.i7.quitter.tasks.auth.AuthRequestTokenTask;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterVerifyCredentialsTask;
 
 /***

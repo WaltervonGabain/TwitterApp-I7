@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import nl.saxion.act.i7.quitter.Application;
-import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
 /***
