@@ -3,6 +3,7 @@ package nl.saxion.act.i7.quitter.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ public class SearchFragment extends Fragment {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     new TwitterUsersSearchTask(query)
+                            .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
                             .onResult((tweets) -> {
                                 listView.setAdapter(new TweetDataAdapter(context, tweets, false));
                                 listView.setVisibility(View.VISIBLE);
