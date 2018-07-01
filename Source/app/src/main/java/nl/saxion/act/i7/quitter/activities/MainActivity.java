@@ -178,7 +178,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setActiveItem(Fragment fragment) {
         if(this.navigationView != null) {
-            if (fragment instanceof HomeFragment) {
+            if (fragment instanceof FollowingFragment) {
+                this.navigationView.getMenu().findItem(R.id.nav_following).setChecked(true);
+            } else if (fragment instanceof HomeFragment) {
+                this.navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+            }  else if (fragment instanceof MentionsFragment) {
                 this.navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
             } else if (fragment instanceof ProfileFragment) {
                 Bundle bundle = fragment.getArguments();
