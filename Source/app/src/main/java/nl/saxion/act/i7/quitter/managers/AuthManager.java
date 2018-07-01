@@ -131,7 +131,11 @@ public class AuthManager {
 
     public void logout() {
         this.oAuthAccessToken = null;
-        Application.getInstance().getUsersManager().setCurrentUser(null);
+
+        UsersManager usersManager = Application.getInstance().getUsersManager();
+
+        usersManager.setCurrentUser(null);
+        usersManager.clear();
     }
 
     private void signRequest(OAuthRequest request) {

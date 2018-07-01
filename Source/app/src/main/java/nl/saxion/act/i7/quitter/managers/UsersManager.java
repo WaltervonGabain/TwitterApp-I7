@@ -26,6 +26,10 @@ public class UsersManager {
         return user;
     }
 
+    public void clear() {
+        this.cachedUsers.clear();
+    }
+
     public UserModel get(long id) {
         return this.cachedUsers.get(id);
     }
