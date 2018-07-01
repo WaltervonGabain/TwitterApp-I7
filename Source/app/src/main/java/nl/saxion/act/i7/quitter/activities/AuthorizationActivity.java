@@ -51,40 +51,48 @@ public class AuthorizationActivity extends AppCompatActivity {
      * @param authorizationUrl The authorization URL.
      */
     private void onAuthorizationUrl(String authorizationUrl) {
-        WebView webView = this.findViewById(R.id.webView);
         RelativeLayout relativeLayout = this.findViewById(R.id.pleaseWaitLayout);
 
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                // If the URL match with the authorization URL then show the web view.
-                if (authorizationUrl.equals(url)) {
-                    webView.setVisibility(View.VISIBLE);
-                    relativeLayout.setVisibility(View.GONE);
-                }
-            }
+        if (authorizationUrl.isEmpty()) {
+            View noInternet = this.findViewById(R.id.cvNoInternet);
+            noInternet.setVisibility(View.VISIBLE);
 
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                // If the Twitter redirect us to the callback URL then we are successfully logged in.
-                if (request.getUrl().toString().startsWith(AuthManager.getInstance().getCallbackUrl())) {
-                    webView.setVisibility(View.GONE);
-                    webView.stopLoading();
-                    webView.loadUrl("about:blank");
+            relativeLayout.setVisibility(View.GONE);
+        } else {
+            WebView webView = this.findViewById(R.id.webView);
 
-                    relativeLayout.setVisibility(View.VISIBLE);
-
-                    String oAuthVerifier = request.getUrl().getQueryParameter("oauth_verifier");
-                    Disposable disposable = AuthManager.getInstance().login(oAuthVerifier).subscribe((success) -> onCredentialsVerified(success));
-
-                    compositeDisposable.add(disposable);
+            webView.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    // If the URL match with the authorization URL then show the web view.
+                    if (authorizationUrl.equals(url)) {
+                        webView.setVisibility(View.VISIBLE);
+                        relativeLayout.setVisibility(View.GONE);
+                    }
                 }
 
-                return false;
-            }
-        });
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                    // If the Twitter redirect us to the callback URL then we are successfully logged in.
+                    if (request.getUrl().toString().startsWith(AuthManager.getInstance().getCallbackUrl())) {
+                        webView.setVisibility(View.GONE);
+                        webView.stopLoading();
+                        webView.loadUrl("about:blank");
 
-        webView.loadUrl(authorizationUrl);
+                        relativeLayout.setVisibility(View.VISIBLE);
+
+                        String oAuthVerifier = request.getUrl().getQueryParameter("oauth_verifier");
+                        Disposable disposable = AuthManager.getInstance().login(oAuthVerifier).subscribe((success) -> onCredentialsVerified(success));
+
+                        compositeDisposable.add(disposable);
+                    }
+
+                    return false;
+                }
+            });
+
+            webView.loadUrl(authorizationUrl);
+        }
     }
 
     /***

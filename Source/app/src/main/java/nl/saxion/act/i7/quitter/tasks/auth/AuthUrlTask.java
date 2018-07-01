@@ -2,6 +2,7 @@ package nl.saxion.act.i7.quitter.tasks.auth;
 
 import android.util.Log;
 
+import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
 import nl.saxion.act.i7.quitter.managers.AuthManager;
@@ -28,11 +29,14 @@ public class AuthUrlTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         try {
-            return this.oAuthService.getAuthorizationUrl(AuthManager.getInstance().getRequestToken());
+            OAuth1RequestToken requestToken =AuthManager.getInstance().getRequestToken();
+            if (requestToken != null) {
+                return this.oAuthService.getAuthorizationUrl(requestToken);
+            }
         } catch (Exception ex) {
             Log.e(this.getClass().getSimpleName(), ex.getLocalizedMessage(), ex);
         }
 
-        return null;
+        return "";
     }
 }

@@ -81,7 +81,7 @@ public abstract class TwitterApiTask<Result> extends AsyncTask<Void, Void, Resul
         this.onPreRequestSign(request);
 
         Response response = AuthManager.getInstance().signAndExecuteRequest(request);
-        if (response.isSuccessful()) {
+        if (response != null && response.isSuccessful()) {
             try {
                 return this.onSuccess(response.getBody());
             } catch (Exception ex) {
