@@ -116,6 +116,11 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
         return convertView;
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
     private void setFavoriteButtonDrawableAndTextColor(TweetModel tweet, Button button) {
         if(tweet.isFavorited()) {
             button.setCompoundDrawablesWithIntrinsicBounds(this.getContext().getDrawable(R.drawable.ic_favorited_red_24dp), null, null, null);
