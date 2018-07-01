@@ -17,6 +17,11 @@
             android:checked="false" />
 
         <item
+            android:id="@+id/nav_following"
+            android:icon="@drawable/ic_following_black_24dp"
+            android:title="@string/nav_following" />
+
+        <item
             android:id="@+id/nav_my_profile"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="@string/nav_my_profile" />

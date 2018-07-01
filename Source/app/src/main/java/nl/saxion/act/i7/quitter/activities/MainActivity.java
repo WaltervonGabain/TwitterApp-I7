@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.R;
+import nl.saxion.act.i7.quitter.fragments.FollowingFragment;
 import nl.saxion.act.i7.quitter.fragments.HomeFragment;
 import nl.saxion.act.i7.quitter.fragments.MentionsFragment;
 import nl.saxion.act.i7.quitter.fragments.ProfileFragment;
@@ -107,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.loadFragment(HomeFragment.class, null);
         } else if (id == R.id.nav_mentions) {
             this.loadFragment(MentionsFragment.class, null);
+        } else if (id == R.id.nav_following) {
+            this.loadFragment(FollowingFragment.class, null);
         } else if (id == R.id.nav_my_profile) {
             Bundle bundle = new Bundle();
             bundle.putLong("id", Application.getInstance().getUsersManager().getCurrentUser().getId());

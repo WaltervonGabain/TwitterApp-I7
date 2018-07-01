@@ -16,6 +16,7 @@
     <string name="nav_home">Home</string>
     <string name="nav_mentions">Mentions</string>
     <string name="nav_my_profile">My profile</string>
+    <string name="nav_following">Following</string>
     <string name="nav_search">Search</string>
 
     <string name="navigation_open">Open navigation</string>
@@ -30,6 +31,9 @@
     <string name="somethingWentWrong">Something when wrong, couldn\'t perform the action.</string>
 
     <string name="nothingToShow">Nothing to show here</string>
+
+    <string name="follow">Follow</string>
+    <string name="following">Following</string>
 
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in</string>

@@ -9,8 +9,6 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-import io.reactivex.Observable;
-import io.reactivex.subjects.BehaviorSubject;
 import nl.saxion.act.i7.quitter.utilities.CircleTransform;
 
 public class UserModel {
@@ -43,6 +41,8 @@ public class UserModel {
     private Bitmap hugeProfileImage;
 
     private Integer profileTextColor = Color.rgb(0, 0, 0);
+
+    private boolean followed = false;
 
     /***
      * Constructor.
@@ -143,5 +143,13 @@ public class UserModel {
 
     public Integer getProfileTextColor() {
         return this.profileTextColor;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
     }
 }
