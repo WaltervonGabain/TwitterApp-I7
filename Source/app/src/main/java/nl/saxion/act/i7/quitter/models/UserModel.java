@@ -11,6 +11,9 @@ import org.json.JSONObject;
 
 import nl.saxion.act.i7.quitter.utilities.CircleTransform;
 
+/***
+ * A model for an user.
+ */
 public class UserModel {
     /***
      * The id of the user.
@@ -32,16 +35,34 @@ public class UserModel {
      */
     private String description;
 
+    /***
+     * The background image of the user.
+     */
     private Bitmap backgroundImage;
 
+    /***
+     * The profile picture (48x48) image of the user.
+     */
     private Bitmap normalProfileImage;
 
+    /***
+     * The profile picture (73x73) image of the user.
+     */
     private Bitmap biggerProfileImage;
 
+    /***
+     * The profile picture (original size) image of the user.
+     */
     private Bitmap hugeProfileImage;
 
+    /***
+     * The text color on the user's profile.
+     */
     private Integer profileTextColor = Color.rgb(0, 0, 0);
 
+    /***
+     * A boolean that is true if the current logged in user follow this user, false otherwise.
+     */
     private boolean followed = false;
 
     /***
@@ -61,25 +82,25 @@ public class UserModel {
             try {
                 String bannerUrl = jsonObject.getString("profile_banner_url");
                 if (bannerUrl != null && !bannerUrl.equals("null")) {
-                    backgroundImage = Picasso.get().load(bannerUrl).get();
-                    profileTextColor = Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color")));
+                    this.backgroundImage = Picasso.get().load(bannerUrl).get();
+                    this.profileTextColor = Color.parseColor(String.format("#%s", jsonObject.getString("profile_text_color")));
                 }
             } catch (Exception ex) {
             }
 
             String imageUrl = jsonObject.getString("profile_image_url");
 
-            normalProfileImage = Picasso.get()
+            this.normalProfileImage = Picasso.get()
                     .load(imageUrl)
                     .transform(new CircleTransform())
                     .get();
 
-            biggerProfileImage = Picasso.get()
+            this.biggerProfileImage = Picasso.get()
                     .load(imageUrl.replace("_normal", "_bigger"))
                     .transform(new CircleTransform())
                     .get();
 
-            hugeProfileImage = Picasso.get()
+            this.hugeProfileImage = Picasso.get()
                     .load(imageUrl.replace("_normal", "_400x400"))
                     .transform(new CircleTransform())
                     .get();
@@ -95,7 +116,7 @@ public class UserModel {
      * @return The id of the user.
      */
     public long getId() {
-        return id;
+        return this.id;
     }
 
     /***
@@ -104,7 +125,7 @@ public class UserModel {
      * @return The name the user.
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /***
@@ -113,7 +134,7 @@ public class UserModel {
      * @return The screen name of the user.
      */
     public String getScreenName() {
-        return screenName;
+        return this.screenName;
     }
 
     /***
@@ -122,33 +143,68 @@ public class UserModel {
      * @return The description of the user.
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
+    /***
+     * Get the background image of the user.
+     *
+     * @return The background image of the user.
+     */
     public Bitmap getBackgroundImage() {
         return this.backgroundImage;
     }
 
+    /***
+     * Get the profile picture (48x48) image of the user.
+     *
+     * @return The profile picture (48x48) image of the user.
+     */
     public Bitmap getNormalProfileImage() {
-        return normalProfileImage;
+        return this.normalProfileImage;
     }
 
+    /***
+     * Get the profile picture (73x73) image of the user.
+     *
+     * @return The profile picture (73x73) image of the user.
+     */
     public Bitmap getBiggerProfileImage() {
-        return biggerProfileImage;
+        return this.biggerProfileImage;
     }
 
+    /***
+     * Get the profile picture (original size) image of the user.
+     *
+     * @return The profile picture (original size) image of the user.
+     */
     public Bitmap getHugeProfileImage() {
-        return hugeProfileImage;
+        return this.hugeProfileImage;
     }
 
+    /***
+     * The text color on the user's profile.
+     *
+     * @return The text color on the user's profile.
+     */
     public Integer getProfileTextColor() {
         return this.profileTextColor;
     }
 
+    /***
+     * Get the followed flag.
+     *
+     * @return True if the user is followed by the current logged in user, false otherwise.
+     */
     public boolean isFollowed() {
-        return followed;
+        return this.followed;
     }
 
+    /***
+     * Set the followed status.
+     *
+     * @param followed True if this user should be marked as followed, false otherwise.
+     */
     public void setFollowed(boolean followed) {
         this.followed = followed;
     }

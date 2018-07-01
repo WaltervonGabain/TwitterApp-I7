@@ -9,9 +9,20 @@ import org.json.JSONObject;
 
 import nl.saxion.act.i7.quitter.models.TweetModel;
 
+/***
+ * The task that post a new tweet.
+ */
 public class TwitterUpdateStatusTask extends TwitterApiTask<TweetModel> {
+    /***
+     * The text of the tweet.
+     */
     private String status;
 
+    /***
+     * The constructor.
+     *
+     * @param status The text of the tweet.
+     */
     public TwitterUpdateStatusTask(String status) {
         this.status = status;
     }

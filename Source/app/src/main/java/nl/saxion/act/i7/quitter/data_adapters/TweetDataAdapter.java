@@ -25,6 +25,9 @@ import nl.saxion.act.i7.quitter.models.UserModel;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFavoriteCreateTask;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFavoriteDestroyTask;
 
+/***
+ * The array adapter for tweets.
+ */
 public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
     private boolean isProfilePage;
 
@@ -86,10 +89,10 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
 
                 favoriteButton.setOnClickListener((view) -> {
                     Runnable runnable = () -> {
-                        tweet.setFavorited(!tweet.isFavorited());
+                        tweet.setFavorite(!tweet.isFavorite());
                         this.setFavoriteButtonDrawableAndTextColor(tweet, favoriteButton);
 
-                        if (tweet.isFavorited()) {
+                        if (tweet.isFavorite()) {
                             tweet.setFavoriteCount(tweet.getFavoriteCount() + 1);
                         } else {
                             tweet.setFavoriteCount(tweet.getFavoriteCount() - 1);
@@ -99,7 +102,7 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
                         favoriteButton.setText(String.valueOf(tweet.getFavoriteCount()));
                     };
 
-                    if (tweet.isFavorited()) {
+                    if (tweet.isFavorite()) {
                         new TwitterFavoriteDestroyTask(tweet.getId())
                                 .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
                                 .onResult((result) -> runnable.run())
@@ -121,11 +124,18 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
 
     @Override
     public boolean isEnabled(int position) {
+        // We don't want users to click on this item, so let's return false every time.
         return false;
     }
 
+    /***
+     * Change the icon and text color for favorite (like) button.
+     *
+     * @param tweet The tweet object.
+     * @param button The button that needs to be updated.
+     */
     private void setFavoriteButtonDrawableAndTextColor(TweetModel tweet, Button button) {
-        if(tweet.isFavorited()) {
+        if(tweet.isFavorite()) {
             button.setCompoundDrawablesWithIntrinsicBounds(this.getContext().getDrawable(R.drawable.ic_favorited_red_24dp), null, null, null);
             button.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorFavorite));
         } else {

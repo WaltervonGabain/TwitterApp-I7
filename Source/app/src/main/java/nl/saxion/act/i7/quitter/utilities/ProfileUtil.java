@@ -14,7 +14,17 @@ import nl.saxion.act.i7.quitter.models.UserModel;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFriendshipCreateTask;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFriendshipDestroyTask;
 
+/***
+ * A helper class to display profile information.
+ */
 public class ProfileUtil {
+    /***
+     * Set the profile information of the user in the view.
+     *
+     * @param user The user.
+     * @param context The context.
+     * @param view The view.
+     */
     public static void bind(UserModel user, Context context, View view) {
         ImageView imageView = view.findViewById(R.id.ivBackgroundImage);
         imageView.setImageBitmap(user.getBackgroundImage());

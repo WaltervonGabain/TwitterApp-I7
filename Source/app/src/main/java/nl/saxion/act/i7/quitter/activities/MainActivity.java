@@ -33,7 +33,13 @@ import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
 import nl.saxion.act.i7.quitter.managers.UsersManager;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
+/***
+ * The main activity when the user is logged in.
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    /***
+     * A reference to the navigation view.
+     */
     private NavigationView navigationView;
 
     @Override
@@ -134,6 +140,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /***
+     * Create a fragment and display it.
+     *
+     * @param fragmentClass Class of the fragment.
+     * @param bundle Bundle parameters to pass to the fragment.
+     */
     public void loadFragment(Class fragmentClass, Bundle bundle) {
         Fragment fragment = null;
 
@@ -151,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager.beginTransaction().replace(R.id.fragment_content, fragment, fragmentClass.getName()).addToBackStack(null).commit();
     }
 
+    /***
+     * Detach and attach the home fragment to force refresh of the timeline.
+     */
     public void reloadTimeline() {
         Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_content);
         if (currentFragment instanceof HomeFragment) {
@@ -161,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /***
+     * Set user details on the navigation bar.
+     */
     private void bindUserDetails() {
         UserModel currentUser = Application.getInstance().getUsersManager().getCurrentUser();
 
@@ -187,6 +205,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         imageView.setImageBitmap(currentUser.getBiggerProfileImage());
     }
 
+    /***
+     * Set active item in navigation bar that represent the current fragment.
+     *
+     * @param fragment The fragment instance.
+     */
     private void setActiveItem(Fragment fragment) {
         if(this.navigationView != null) {
             if (fragment instanceof FollowingFragment) {

@@ -19,6 +19,9 @@ import nl.saxion.act.i7.quitter.activities.MainActivity;
 import nl.saxion.act.i7.quitter.models.UserModel;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterUpdateStatusTask;
 
+/***
+ * The fragment that let the user post a tweet.
+ */
 public class PostTweetFragment extends Fragment {
     public PostTweetFragment() {
     }

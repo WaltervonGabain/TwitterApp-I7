@@ -13,14 +13,30 @@ import java.util.ArrayList;
 import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
+/***
+ * The task to check the friendship between logged in user and a/between specific user(s).
+ */
 public class TwitterFriendshipLookupTask extends TwitterApiTask<Void> {
+    /***
+     * An array of users to join their id in the request.
+     */
     private ArrayList<UserModel> users;
 
+    /***
+     * The constructor.
+     *
+     * @param user A single user to check.
+     */
     public TwitterFriendshipLookupTask(UserModel user) {
         this.users = new ArrayList<>();
         this.users.add(user);
     }
 
+    /***
+     * The constructor.
+     *
+     * @param users Multiple users to check.
+     */
     public TwitterFriendshipLookupTask(ArrayList<UserModel> users) {
         this.users = users;
     }

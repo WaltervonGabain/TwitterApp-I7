@@ -16,6 +16,9 @@ import nl.saxion.act.i7.quitter.activities.MainActivity;
 import nl.saxion.act.i7.quitter.data_adapters.TweetDataAdapter;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterUsersSearchTask;
 
+/***
+ * The search fragment.
+ */
 public class SearchFragment extends Fragment {
     public SearchFragment() {
     }

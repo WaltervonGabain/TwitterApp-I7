@@ -14,6 +14,9 @@ import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
+/***
+ * The task to show what logged in user is following.
+ */
 public class TwitterFriendsListTask extends TwitterApiTask<ArrayList<UserModel>> {
     @Override
     String getEndpoint() {

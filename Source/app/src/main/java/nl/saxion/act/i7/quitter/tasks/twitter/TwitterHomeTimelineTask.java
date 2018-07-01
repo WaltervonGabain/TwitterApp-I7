@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 import nl.saxion.act.i7.quitter.models.TweetModel;
 
+/***
+ * The task to show logged in user's timeline.
+ */
 public class TwitterHomeTimelineTask extends TwitterApiTask<ArrayList<TweetModel>> {
     @Override
     String getEndpoint() {

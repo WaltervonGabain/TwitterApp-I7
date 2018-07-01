@@ -11,9 +11,20 @@ import java.util.ArrayList;
 
 import nl.saxion.act.i7.quitter.models.TweetModel;
 
+/***
+ * The task that show the timeline for a specific user.
+ */
 public class TwitterUserTimelineTask extends TwitterApiTask<ArrayList<TweetModel>> {
+    /***
+     * The user ID.
+     */
     private long userId;
 
+    /***
+     * The constructor.
+     *
+     * @param userId The user ID.
+     */
     public TwitterUserTimelineTask(long userId) {
         this.userId = userId;
     }

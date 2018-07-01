@@ -14,7 +14,13 @@ import io.reactivex.disposables.Disposable;
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.managers.AuthManager;
 
+/***
+ * Authorization activity, this is the main activity that is displayed to the user when the application starts.
+ */
 public class AuthorizationActivity extends AppCompatActivity {
+    /***
+     * A list with disposables to remove them in "onDestroy" function to prevent memory leaks.
+     */
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
@@ -39,6 +45,11 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    /***
+     * Load the authorization URL and display it to the user.
+     *
+     * @param authorizationUrl The authorization URL.
+     */
     private void onAuthorizationUrl(String authorizationUrl) {
         WebView webView = this.findViewById(R.id.webView);
         RelativeLayout relativeLayout = this.findViewById(R.id.pleaseWaitLayout);
@@ -46,6 +57,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
+                // If the URL match with the authorization URL then show the web view.
                 if (authorizationUrl.equals(url)) {
                     webView.setVisibility(View.VISIBLE);
                     relativeLayout.setVisibility(View.GONE);
@@ -75,6 +87,11 @@ public class AuthorizationActivity extends AppCompatActivity {
         webView.loadUrl(authorizationUrl);
     }
 
+    /***
+     * Start the main activity if the user is logged in successfully or show the authorization web view again.
+     *
+     * @param success The status of the authorization.
+     */
     private void onCredentialsVerified(boolean success) {
         if (success) {
             Intent activityIntent = new Intent(AuthorizationActivity.this, MainActivity.class);

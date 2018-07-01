@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 import nl.saxion.act.i7.quitter.models.UserModel;
 
+/***
+ * The task that verify user's credentials.
+ */
 public class TwitterVerifyCredentialsTask extends TwitterApiTask<UserModel> {
     @Override
     protected String getEndpoint() {

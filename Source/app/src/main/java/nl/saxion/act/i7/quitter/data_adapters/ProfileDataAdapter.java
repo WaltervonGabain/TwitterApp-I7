@@ -18,6 +18,9 @@ import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.models.UserModel;
 import nl.saxion.act.i7.quitter.utilities.ProfileUtil;
 
+/***
+ * The array adapter for profiles.
+ */
 public class ProfileDataAdapter extends ArrayAdapter<UserModel> {
     public ProfileDataAdapter(@NonNull Context context, @NonNull ArrayList<UserModel> objects) {
         super(context, 0, objects);
@@ -40,6 +43,7 @@ public class ProfileDataAdapter extends ArrayAdapter<UserModel> {
 
     @Override
     public boolean isEnabled(int position) {
+        // We don't want users to click on this item, so let's return false every time.
         return false;
     }
 }

@@ -14,6 +14,9 @@ import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.data_adapters.TweetDataAdapter;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterMentionsTimelineTask;
 
+/***
+ * The fragment for mentions.
+ */
 public class MentionsFragment extends Fragment {
     public MentionsFragment() {
     }

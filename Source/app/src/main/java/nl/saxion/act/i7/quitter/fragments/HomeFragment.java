@@ -21,6 +21,9 @@ import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterHomeTimelineTask;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterUserTimelineTask;
 
+/***
+ * The home fragment where the user can post a tweet and see other's tweets.
+ */
 public class HomeFragment extends Fragment {
     public HomeFragment() {
     }
@@ -76,8 +79,6 @@ public class HomeFragment extends Fragment {
             }
 
             fragmentTransaction.commit();
-
-            // TODO: Show a message if there are no tweets.
         }
     }
 }

@@ -19,6 +19,9 @@ import nl.saxion.act.i7.quitter.models.UserModel;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFriendshipLookupTask;
 import nl.saxion.act.i7.quitter.utilities.ProfileUtil;
 
+/***
+ * The fragment that show the profile of a user.
+ */
 public class ProfileFragment extends Fragment {
     public ProfileFragment() {
     }

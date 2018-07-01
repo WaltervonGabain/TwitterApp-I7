@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import com.squareup.picasso.Transformation;
 
 /***
+ * The class to make the profile photo round.
+ *
  * Taken from https://stackoverflow.com/a/46340916.
  */
 public class CircleTransform implements Transformation {

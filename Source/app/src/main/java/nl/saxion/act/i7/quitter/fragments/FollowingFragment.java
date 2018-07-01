@@ -17,6 +17,9 @@ import nl.saxion.act.i7.quitter.data_adapters.TweetDataAdapter;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFriendsListTask;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterFriendshipLookupTask;
 
+/***
+ * The fragment that shows what the user is following.
+ */
 public class FollowingFragment extends Fragment {
     public FollowingFragment() {
     }
@@ -45,6 +48,7 @@ public class FollowingFragment extends Fragment {
 
                             pleaseWait.setVisibility(View.GONE);
                         } else {
+                            // Now check for the friendship of the users and our user.
                             new TwitterFriendshipLookupTask(users)
                                     .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
                                     .onResult((result) -> {

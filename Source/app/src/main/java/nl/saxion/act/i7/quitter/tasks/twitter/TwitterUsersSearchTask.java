@@ -14,9 +14,20 @@ import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.models.TweetModel;
 import nl.saxion.act.i7.quitter.models.UserModel;
 
+/***
+ * The task that perform a search query on users.
+ */
 public class TwitterUsersSearchTask extends TwitterApiTask<ArrayList<TweetModel>> {
+    /***
+     * The query.
+     */
     private String query;
 
+    /***
+     * The constructor.
+     *
+     * @param query The query.
+     */
     public TwitterUsersSearchTask(String query) {
         this.query = query;
     }
