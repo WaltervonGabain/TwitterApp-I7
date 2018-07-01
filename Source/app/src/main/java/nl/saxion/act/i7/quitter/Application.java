@@ -1,7 +1,5 @@
 package nl.saxion.act.i7.quitter;
 
-import android.os.UserManager;
-
 import nl.saxion.act.i7.quitter.managers.SharedPreferencesManager;
 import nl.saxion.act.i7.quitter.managers.UsersManager;
 
