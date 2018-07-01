@@ -49,19 +49,22 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
                 ImageView imageView = convertView.findViewById(R.id.ivProfileImage);
                 imageView.setImageBitmap(user.getBiggerProfileImage());
 
+                TextView textView = convertView.findViewById(R.id.tvUserName);
+                textView.setText(tweet.getUser().getName());
+
                 if (!this.isProfilePage) {
-                    imageView.setOnClickListener((view) -> {
+                    Runnable runnable = () -> {
                         MainActivity context = (MainActivity) this.getContext();
 
                         Bundle bundle = new Bundle();
                         bundle.putLong("id", user.getId());
 
                         context.loadFragment(ProfileFragment.class, bundle);
-                    });
-                }
+                    };
 
-                TextView textView = convertView.findViewById(R.id.tvUserName);
-                textView.setText(tweet.getUser().getName());
+                    imageView.setOnClickListener((view) -> runnable.run());
+                    textView.setOnClickListener((view) -> runnable.run());
+                }
 
                 textView = convertView.findViewById(R.id.tvScreenName);
                 textView.setText(user.getScreenName());
