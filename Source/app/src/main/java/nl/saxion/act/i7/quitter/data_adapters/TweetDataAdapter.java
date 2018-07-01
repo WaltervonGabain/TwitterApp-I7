@@ -1,6 +1,7 @@
 package nl.saxion.act.i7.quitter.data_adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -92,12 +93,7 @@ public class TweetDataAdapter extends ArrayAdapter<TweetModel> {
                         tweet.setFavorite(!tweet.isFavorite());
                         this.setFavoriteButtonDrawableAndTextColor(tweet, favoriteButton);
 
-                        if (tweet.isFavorite()) {
-                            tweet.setFavoriteCount(tweet.getFavoriteCount() + 1);
-                        } else {
-                            tweet.setFavoriteCount(tweet.getFavoriteCount() - 1);
-                        }
-
+                        tweet.setFavoriteCount(tweet.getFavoriteCount());
 
                         favoriteButton.setText(String.valueOf(tweet.getFavoriteCount()));
                     };

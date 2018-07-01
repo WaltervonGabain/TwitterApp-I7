@@ -171,6 +171,12 @@ public class TweetModel {
      * @param favorite True if this should be marked as favorite, false otherwise.
      */
     public void setFavorite(boolean favorite) {
+        if (favorite) {
+            this.setFavoriteCount(this.getFavoriteCount() + 1);
+        } else {
+            this.setFavoriteCount(this.getFavoriteCount() - 1);
+        }
+
         this.favorite = favorite;
     }
 }
