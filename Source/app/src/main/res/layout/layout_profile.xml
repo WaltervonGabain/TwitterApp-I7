@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="btFollow"
+        app:constraint_referenced_ids="ivProfileImage,btFollow"
         tools:layout_editor_absoluteY="201dp" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btFollow"
+        app:layout_constraintTop_toBottomOf="@+id/barrier1"
         tools:text="Name" />
 
     <TextView
