@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -148,6 +149,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_content, fragment, fragmentClass.getName()).addToBackStack(null).commit();
+    }
+
+    public void reloadTimeline() {
+        Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_content);
+        if (currentFragment instanceof HomeFragment) {
+            FragmentTransaction fragTransaction = this.getSupportFragmentManager().beginTransaction();
+            fragTransaction.detach(currentFragment);
+            fragTransaction.attach(currentFragment);
+            fragTransaction.commit();
+        }
     }
 
     private void bindUserDetails() {

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.R;
+import nl.saxion.act.i7.quitter.activities.MainActivity;
 import nl.saxion.act.i7.quitter.models.UserModel;
 import nl.saxion.act.i7.quitter.tasks.twitter.TwitterUpdateStatusTask;
 
@@ -49,7 +50,7 @@ public class PostTweetFragment extends Fragment {
                     editText.clearFocus();
 
                     InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if(inputMethodManager != null) {
+                    if (inputMethodManager != null) {
                         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
 
@@ -61,6 +62,12 @@ public class PostTweetFragment extends Fragment {
                                 if (tweet != null) {
                                     Snackbar.make(view, R.string.tweeted, Snackbar.LENGTH_LONG).setAction("Action", null).show();
                                     editText.setText("");
+
+                                    // We posted something, let's reload since we know that this parent is MainActivity.
+                                    MainActivity context = (MainActivity) this.getContext();
+                                    if (context != null) {
+                                        context.reloadTimeline();
+                                    }
                                 } else {
                                     Snackbar.make(view, R.string.tweetError, Snackbar.LENGTH_LONG).setAction("Action", null).show();
                                 }
