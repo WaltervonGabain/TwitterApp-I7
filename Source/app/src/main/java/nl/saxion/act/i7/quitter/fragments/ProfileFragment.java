@@ -44,15 +44,16 @@ public class ProfileFragment extends Fragment {
                 UserModel user;
                 if (userId == usersManager.getCurrentUser().getId()) {
                     user = usersManager.getCurrentUser();
+                    ProfileUtil.bind(user, context, view);
                 } else {
                     user = usersManager.get(userId);
-                }
 
-                // Check the friendship status.
-                new TwitterFriendshipLookupTask(user)
-                        .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
-                        .onResult((result) -> ProfileUtil.bind(user, context, view))
-                        .execute();
+                    // Check the friendship status.
+                    new TwitterFriendshipLookupTask(user)
+                            .onError(() -> Snackbar.make(view, R.string.somethingWentWrong, Snackbar.LENGTH_LONG).setAction("Action", null).show())
+                            .onResult((result) -> ProfileUtil.bind(user, context, view))
+                            .execute();
+                }
 
                 Bundle timelineBundle = new Bundle();
                 timelineBundle.putLong("id", user.getId());
