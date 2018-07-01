@@ -36,7 +36,7 @@ public class AuthManager {
     private AuthManager() {
         this.oAuthService = new ServiceBuilder(this.apiKey)
                 .apiSecret(this.apiSecret)
-                .callback(CALLBACK_URL)
+                .callback(this.callbackUrl)
                 .build(TwitterApi.instance());
 
         SharedPreferencesManager sharedPreferences = SharedPreferencesManager.getInstance();
