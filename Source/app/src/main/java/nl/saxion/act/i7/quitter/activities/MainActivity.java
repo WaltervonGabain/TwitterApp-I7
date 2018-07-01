@@ -23,6 +23,7 @@ import android.widget.TextView;
 import nl.saxion.act.i7.quitter.Application;
 import nl.saxion.act.i7.quitter.R;
 import nl.saxion.act.i7.quitter.fragments.HomeFragment;
+import nl.saxion.act.i7.quitter.fragments.MentionsFragment;
 import nl.saxion.act.i7.quitter.fragments.ProfileFragment;
 import nl.saxion.act.i7.quitter.fragments.SearchFragment;
 import nl.saxion.act.i7.quitter.managers.AuthManager;
@@ -104,17 +105,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_home) {
             this.loadFragment(HomeFragment.class, null);
-        }
-        else if (id == R.id.nav_my_profile) {
+        } else if (id == R.id.nav_mentions) {
+            this.loadFragment(MentionsFragment.class, null);
+        } else if (id == R.id.nav_my_profile) {
             Bundle bundle = new Bundle();
             bundle.putLong("id", Application.getInstance().getUsersManager().getCurrentUser().getId());
 
             this.loadFragment(ProfileFragment.class, bundle);
-        }
-        else if (id == R.id.nav_search) {
+        } else if (id == R.id.nav_search) {
             this.loadFragment(SearchFragment.class, null);
-        }
-        else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
             AuthManager.getInstance().logout();
             SharedPreferencesManager.getInstance().clear();
 
