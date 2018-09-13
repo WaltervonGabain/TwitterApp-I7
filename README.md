@@ -1,4 +1,4 @@
-# Saxion TwitterApp
+# Saxion Twitter App
 
 A **[Twitter](https://twitter.com/)** application that runs on **[Android](https://www.android.com/)**.
 
